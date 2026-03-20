@@ -22,7 +22,13 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    //Validating import alias for shadcn
+    "baseUrl": "./src", //set "./src/" equal to "./" for paths
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": ["src"]
 }
