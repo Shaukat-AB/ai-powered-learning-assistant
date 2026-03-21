@@ -13,7 +13,8 @@ import NotFoundPage from './pages/error/NotFoundPage';
 import { logError } from './lib/utils';
 
 function App() {
-  const isLoggedin = false;
+  const isLoggedin = true;
+
   return (
     <Router>
       <AppLayout>
