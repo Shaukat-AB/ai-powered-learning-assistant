@@ -11,10 +11,9 @@ import { ErrorBoundary } from 'react-error-boundary';
 import ErrorPage from './pages/error/ErrorPage';
 import NotFoundPage from './pages/error/NotFoundPage';
 import { logError } from './lib/utils';
+import { isLoggedin } from './temp-constants';
 
 function App() {
-  const isLoggedin = true;
-
   return (
     <Router>
       <AppLayout>

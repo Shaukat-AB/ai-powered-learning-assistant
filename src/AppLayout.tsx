@@ -4,10 +4,9 @@ import { Spinner } from './components/ui/spinner';
 import Header from './components/header/Header';
 import { SidebarProvider } from './components/ui/sidebar';
 import AppSidebar from './components/sidebar/AppSidebar';
+import { isLoading } from './temp-constants';
 
 const AppLayout = ({ children }: { children: ReactElement }) => {
-  const isLoading = false;
-
   return (
     <SidebarProvider>
       <AppSidebar />
