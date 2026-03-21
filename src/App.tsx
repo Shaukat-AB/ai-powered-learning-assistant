@@ -7,27 +7,33 @@ import WelcomePage from './pages/public/WelcomePage';
 
 import DashboardPage from './pages/private/DashboardPage';
 import DocumentsPage from './pages/private/DocumentsPage';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorPage from './pages/error/ErrorPage';
+import NotFoundPage from './pages/error/NotFoundPage';
+import { logError } from './lib/utils';
 
 function App() {
   const isLoggedin = false;
   return (
     <Router>
       <AppLayout>
-        <Routes>
-          {/* Public Routes*/}
-          <Route element={<PublicRoute isLoggedin={isLoggedin} />}>
-            <Route path="/" element={<WelcomePage />} />
-          </Route>
+        <ErrorBoundary FallbackComponent={ErrorPage} onError={logError}>
+          <Routes>
+            {/* Public Routes*/}
+            <Route element={<PublicRoute isLoggedin={isLoggedin} />}>
+              <Route path="/" element={<WelcomePage />} />
+            </Route>
 
-          {/* Protected Routes*/}
-          <Route element={<ProtectedRoute isLoggedin={isLoggedin} />}>
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/documents" element={<DocumentsPage />} />
-          </Route>
+            {/* Protected Routes*/}
+            <Route element={<ProtectedRoute isLoggedin={isLoggedin} />}>
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/documents" element={<DocumentsPage />} />
+            </Route>
 
-          {/* Others */}
-          <Route path="*" element={<div>Not found</div>} />
-        </Routes>
+            {/* Others */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </ErrorBoundary>
       </AppLayout>
     </Router>
   );
