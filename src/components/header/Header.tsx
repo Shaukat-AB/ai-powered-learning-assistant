@@ -1,4 +1,4 @@
-import { User } from 'lucide-react';
+import { MenuIcon, User } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { SidebarTrigger } from '../ui/sidebar';
@@ -9,7 +9,9 @@ import { isLoggedin } from '@/temp-constants';
 const Header = () => {
   return (
     <header className="flex items-center p-(--header-p) h-(--header-h) w-full">
-      <SidebarTrigger className="md:hidden" />
+      <SidebarTrigger className="md:hidden">
+        <MenuIcon />
+      </SidebarTrigger>
 
       <Activity mode={isLoggedin ? 'visible' : 'hidden'}>
         <CardContent className="flex items-center ml-auto">

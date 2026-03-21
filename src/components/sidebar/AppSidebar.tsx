@@ -1,3 +1,5 @@
+import { PanelLeftIcon } from 'lucide-react';
+
 import Navbar from './Navbar';
 import {
   Sidebar,
@@ -18,7 +20,9 @@ const AppSidebar = () => {
       </SidebarContent>
 
       <SidebarFooter className="py-(--header-p)">
-        <SidebarTrigger className="md:hidden ml-auto" />
+        <SidebarTrigger className="md:hidden ml-auto">
+          <PanelLeftIcon />
+        </SidebarTrigger>
       </SidebarFooter>
     </Sidebar>
   );
