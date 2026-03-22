@@ -3,5 +3,13 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+
+  //Validating import alias for shadcn
+  "compilerOptions": {
+    "baseUrl": "./src", //set "./src/" equal to "./" for paths
+    "paths": {
+      "@/*": ["./*"]
+    }
+  }
 }
