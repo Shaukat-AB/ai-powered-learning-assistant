@@ -21,7 +21,10 @@ const Header = () => {
 
       <Activity mode={isLoggedin ? 'visible' : 'hidden'}>
         <CardContent className="flex items-center ml-auto">
-          <Avatar size="lg">
+          <Avatar
+            size="lg"
+            className="ring-offset-background ring-2 ring-primary/50 ring-offset-2"
+          >
             <AvatarImage
               src={photoURL}
               referrerPolicy="no-referrer"
