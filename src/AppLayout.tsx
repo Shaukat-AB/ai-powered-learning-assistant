@@ -11,7 +11,7 @@ const AppLayout = ({ children }: { children: ReactElement }) => {
 
       <div className="w-full">
         <Header />
-        <main className="w-full py-(--main-py) flex justify-center min-h-[calc(100vh-var(--header-h))]">
+        <main className="w-full py-(--main-py) flex justify-center min-h-(--main-h)">
           {children}
         </main>
       </div>
