@@ -10,32 +10,45 @@ import DocumentsPage from './pages/private/DocumentsPage';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorPage from './pages/error/ErrorPage';
 import NotFoundPage from './pages/error/NotFoundPage';
+
 import { logError } from './lib/utils';
-import { isLoggedin } from './temp-constants';
+import { queryClient } from './lib/react-query';
+
+import { AuthProvider } from './context/AuthContext';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from './components/ui/sonner';
 
 function App() {
   return (
-    <Router>
-      <AppLayout>
-        <ErrorBoundary FallbackComponent={ErrorPage} onError={logError}>
-          <Routes>
-            {/* Public Routes*/}
-            <Route element={<PublicRoute isLoggedin={isLoggedin} />}>
-              <Route path="/" element={<WelcomePage />} />
-            </Route>
+    <>
+      <Toaster position="top-right" />
 
-            {/* Protected Routes*/}
-            <Route element={<ProtectedRoute isLoggedin={isLoggedin} />}>
-              <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/documents" element={<DocumentsPage />} />
-            </Route>
+      <Router>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <AppLayout>
+              <ErrorBoundary FallbackComponent={ErrorPage} onError={logError}>
+                <Routes>
+                  {/* Public Routes*/}
+                  <Route element={<PublicRoute />}>
+                    <Route path="/" element={<WelcomePage />} />
+                  </Route>
 
-            {/* Others */}
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </ErrorBoundary>
-      </AppLayout>
-    </Router>
+                  {/* Protected Routes*/}
+                  <Route element={<ProtectedRoute />}>
+                    <Route path="/dashboard" element={<DashboardPage />} />
+                    <Route path="/documents" element={<DocumentsPage />} />
+                  </Route>
+
+                  {/* Others */}
+                  <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+              </ErrorBoundary>
+            </AppLayout>
+          </AuthProvider>
+        </QueryClientProvider>
+      </Router>
+    </>
   );
 }
 

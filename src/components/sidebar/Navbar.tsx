@@ -1,29 +1,33 @@
 import { NavLink } from 'react-router';
 import { buttonVariants } from '../ui/button';
-import { isLoading, isLoggedin } from '@/temp-constants';
 import { Skeleton } from '../ui/skeleton';
+import { useAuth } from '@/context/AuthContext';
 
-const navLinks = isLoggedin
-  ? [
-      {
-        title: 'dashboard',
-        to: '/dashboard',
-      },
-      ,
-      {
-        title: 'documents',
-        to: '/documents',
-      },
-      ,
-    ]
-  : [
-      {
-        title: 'overview',
-        to: '/',
-      },
-    ];
+const authNavLinks = [
+  {
+    title: 'dashboard',
+    to: '/dashboard',
+  },
+  ,
+  {
+    title: 'documents',
+    to: '/documents',
+  },
+  ,
+];
+
+const publicNavLinks = [
+  {
+    title: 'overview',
+    to: '/',
+  },
+];
 
 const Navbar = () => {
+  const { user, isLoading } = useAuth();
+  const isLoggedin = user;
+  const navLinks = isLoggedin ? authNavLinks : publicNavLinks;
+
   return (
     <nav>
       <ul className="space-y-2">
