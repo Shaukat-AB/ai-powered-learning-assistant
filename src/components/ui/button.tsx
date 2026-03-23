@@ -19,6 +19,16 @@ const buttonVariants = cva(
         destructive:
           'bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40',
         link: 'text-primary underline-offset-4 hover:underline',
+
+        // Custom variants
+        'default-alt':
+          'bg-primary-foreground text-primary [a]:hover:bg-primary-foreground/80',
+        'secondary-alt':
+          'bg-secondary-foreground text-secondary hover:bg-secondary-foreground/80 aria-expanded:bg-secondary aria-expanded:text-secondary',
+        accent: 'bg-accent text-accent-foreground [a]:hover:bg-accent/80',
+        'accent-alt':
+          'bg-accent-foreground text-accent [a]:hover:bg-accent-foreground/80',
+        'bg-alt': 'bg-foreground text-background [a]:hover:bg-foreground/80',
       },
       size: {
         default:
