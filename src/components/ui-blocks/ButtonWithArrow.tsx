@@ -7,7 +7,7 @@ const ButtonWithArrow = ({
   className,
   variant = 'default',
   size = 'default',
-  asChild = false,
+  // asChild = false,
   loading = false,
   children,
   ...props
@@ -16,7 +16,7 @@ const ButtonWithArrow = ({
     <Button
       variant={variant}
       size={size}
-      asChild={asChild}
+      // asChild={asChild}
       className={`group ${className}`}
       {...props}
     >
