@@ -7,13 +7,14 @@ import WelcomePage from './pages/public/WelcomePage';
 
 import DashboardPage from './pages/private/DashboardPage';
 import DocumentsPage from './pages/private/DocumentsPage';
-import { ErrorBoundary } from 'react-error-boundary';
+import ChatPage from './pages/private/ChatPage';
 import ErrorPage from './pages/error/ErrorPage';
 import NotFoundPage from './pages/error/NotFoundPage';
 
-import { logError } from './lib/utils';
 import { queryClient } from './lib/react-query';
+import { logError } from './lib/utils';
 
+import { ErrorBoundary } from 'react-error-boundary';
 import { AuthProvider } from './context/AuthContext';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from './components/ui/sonner';
@@ -37,7 +38,10 @@ function App() {
                   {/* Protected Routes*/}
                   <Route element={<ProtectedRoute />}>
                     <Route path="/dashboard" element={<DashboardPage />} />
-                    <Route path="/documents" element={<DocumentsPage />} />
+
+                    <Route path="/documents" element={<DocumentsPage />}>
+                      <Route path="chat" element={<ChatPage />} />
+                    </Route>
                   </Route>
 
                   {/* Others */}
