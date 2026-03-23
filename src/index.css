@@ -50,8 +50,9 @@
 
 :root {
   /* App */
-  --header-h: 60px;
+  --header-h: 76px;
   --header-p: 16px;
+  --main-py: 24px;
 
   /* Shadcn */
   --background: oklch(1 0 0);
