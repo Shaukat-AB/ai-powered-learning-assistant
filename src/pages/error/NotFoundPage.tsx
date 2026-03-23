@@ -1,20 +1,35 @@
-import { Button } from '@/components/ui/button';
-import { CardContent, CardDescription, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router';
+
+import { Button } from '@/components/ui/button';
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from '@/components/ui/empty';
+
+import { ArrowRight } from 'lucide-react';
 
 const NotFoundPage = () => {
   return (
-    <section>
-      <CardContent className="flex flex-col gap-1 items-center">
-        <CardTitle className="text-6xl">404</CardTitle>
-        <CardDescription className="text-xl">
-          Page is not found!
-        </CardDescription>
-        <Button className="text-md mt-2" size={'lg'} asChild>
-          <Link to="/">Back to home page</Link>
+    <Empty>
+      <EmptyHeader>
+        <EmptyTitle className="text-6xl">404</EmptyTitle>
+        <EmptyDescription className="text-lg">
+          The page you're looking for doesn't exist.
+        </EmptyDescription>
+      </EmptyHeader>
+
+      <EmptyContent>
+        <Button className="text-md" size={'lg'} asChild>
+          <Link to="/">
+            Back to home page
+            <ArrowRight />
+          </Link>
         </Button>
-      </CardContent>
-    </section>
+      </EmptyContent>
+    </Empty>
   );
 };
 
