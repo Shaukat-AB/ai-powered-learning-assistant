@@ -4,7 +4,7 @@ import { CardContent, CardTitle } from '@/components/ui/card';
 import { useSignInMutation } from '@/hooks/auth';
 
 const WelcomePage = () => {
-  const { mutate } = useSignInMutation();
+  const { mutate, isPending } = useSignInMutation();
   const handleGoogleLogin = () => mutate();
 
   return (
@@ -14,6 +14,8 @@ const WelcomePage = () => {
         className="w-full"
         size={'lg'}
         variant={'outline'}
+        loading={isPending}
+        disabled={isPending}
         onClick={handleGoogleLogin}
       >
         <img
