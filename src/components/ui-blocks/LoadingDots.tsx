@@ -1,0 +1,11 @@
+const LoadingDots = () => {
+  return (
+    <div className="flex items-center justify-center gap-1.5">
+      <span className="bg-primary size-2 animate-bounce rounded-full [animation-delay:-0.3s]" />
+      <span className="bg-primary size-2 animate-bounce rounded-full [animation-delay:-0.15s]" />
+      <span className="bg-primary size-2 animate-bounce rounded-full" />
+    </div>
+  );
+};
+
+export default LoadingDots;
