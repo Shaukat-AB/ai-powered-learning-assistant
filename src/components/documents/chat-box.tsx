@@ -1,0 +1,51 @@
+import { Card, CardContent, CardDescription } from '../ui/card';
+import LoadingDots from '../ui-blocks/LoadingDots';
+
+import Markdown from './Markdown';
+
+export const ChatPrompt = ({ text = '' }) => {
+  return (
+    <Card className="ring-0 w-fit max-w-4/5 ml-auto bg-primary-foreground ">
+      <CardContent>
+        <CardDescription className="text-foreground">
+          <p>{text}</p>
+        </CardDescription>
+      </CardContent>
+    </Card>
+  );
+};
+
+export const ChatResponse = ({
+  text = '',
+  isLoading = false,
+  error = null,
+}: {
+  text: string;
+  isLoading?: boolean;
+  error?: Error | null;
+}) => {
+  return (
+    <Card className="ring-0 w-fit max-w-4/5 bg-accent/75">
+      <CardContent>
+        <div>
+          {!isLoading && text ? (
+            <Markdown text={text} />
+          ) : !error ? (
+            <CardDescription className="text-accent-foreground">
+              <p className="flex items-center gap-2">
+                thinking
+                <LoadingDots />
+              </p>
+            </CardDescription>
+          ) : (
+            <CardDescription className="text-destructive">
+              <p className="flex items-center gap-2">
+                {error.message || 'Somthing Went Wrong!'}
+              </p>
+            </CardDescription>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
