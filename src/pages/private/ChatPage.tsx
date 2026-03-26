@@ -1,3 +1,5 @@
+import type { TChat } from '@/components/documents/types';
+
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 
 import ChatEmpty from '@/components/documents/ChatEmpty';
@@ -8,11 +10,6 @@ import useScrollToEnd from '@/hooks/useScrollToEnd';
 import { useGetResponseMutation } from '@/hooks/ai';
 
 import { useState } from 'react';
-
-type TChat = {
-  prompt: string;
-  response: string;
-};
 
 const ChatPage = () => {
   const { mutateAsync, isPending, error } = useGetResponseMutation();
@@ -31,10 +28,10 @@ const ChatPage = () => {
   };
 
   return (
-    <CardContent className="relative w-full h-(--main-h) max-h-(--main-h) pb-18">
+    <CardContent className="relative w-full h-(--tab-page-h) max-h-(--tab-page-h) pb-16">
       <Card
         ref={cardRef}
-        className="w-full h-full flex items-center justify-end-safe overflow-y-auto"
+        className="w-full h-full py-0 flex items-center justify-end-safe overflow-y-auto"
       >
         {chats.length == 0 ? (
           <ChatEmpty />
@@ -55,9 +52,9 @@ const ChatPage = () => {
         )}
       </Card>
 
-      <Card className="ring-0 bg-transparent w-full h-0">
-        <CardFooter className="w-full pb-0 flex absolute bottom-0 left-0 border-0">
-          <CardContent className="w-full bg-background py-4">
+      <Card className="ring-0 p-0 w-full h-0">
+        <CardFooter className="bg-transparent py-0 w-full flex absolute bottom-0 left-0 border-0">
+          <CardContent className="w-full bg-background py-2">
             <ChatTextArea onSubmit={handlePromptSubmit} isLoading={isPending} />
           </CardContent>
         </CardFooter>
