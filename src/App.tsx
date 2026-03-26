@@ -7,6 +7,8 @@ import WelcomePage from './pages/public/WelcomePage';
 
 import DashboardPage from './pages/private/DashboardPage';
 import DocumentsPage from './pages/private/DocumentsPage';
+import DocumentPreviewPage from './pages/private/DocumentPreviewPage';
+import DocumentTabsPage from '@/pages/private/DoumentTabsPage';
 import ChatPage from './pages/private/ChatPage';
 import ErrorPage from './pages/error/ErrorPage';
 import NotFoundPage from './pages/error/NotFoundPage';
@@ -39,8 +41,14 @@ function App() {
                   <Route element={<ProtectedRoute />}>
                     <Route path="/dashboard" element={<DashboardPage />} />
 
-                    <Route path="/documents" element={<DocumentsPage />}>
-                      <Route path="chat" element={<ChatPage />} />
+                    <Route path="/documents/" element={<DocumentsPage />}>
+                      <Route path=":id" element={<DocumentTabsPage />}>
+                        <Route path="chat" element={<ChatPage />} />
+                        <Route
+                          path="preview"
+                          element={<DocumentPreviewPage />}
+                        />
+                      </Route>
                     </Route>
                   </Route>
 
