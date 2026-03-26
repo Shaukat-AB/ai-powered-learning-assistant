@@ -52,8 +52,12 @@
   /* App */
   --header-h: 76px;
   --header-p: 16px;
+
   --main-py: 24px;
-  --main-h: calc(100vh - var(--header-h) - var(--main-py) * 2);
+  --main-h: calc(100dvh - var(--header-h) - var(--main-py) * 2);
+
+  --tab-header-h: var(--header-h);
+  --tab-page-h: calc(var(--main-h) - var(--tab-header-h) - var(--main-py));
 
   /* Shadcn */
   --background: oklch(1 0 0);
