@@ -10,16 +10,22 @@ import { onAuthStateChanged, type User } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
 export type TUser = {
-  isLoading: false | true;
-  user: User | null;
+  isVerifying: boolean;
+
+  isLoading: boolean;
   setIsLoading: (isLoading: false | true) => void;
+
+  user: User | null;
   setAuthUser: (authUser: TUser) => void;
 };
 
 const initialUser: TUser = {
+  isVerifying: true,
+
   isLoading: false,
-  user: null,
   setIsLoading: (_v) => null,
+
+  user: null,
   setAuthUser: (_v) => null,
 };
 
@@ -40,6 +46,7 @@ export const AuthProvider = ({ children }: { children: ReactElement }) => {
       setAuthUser({
         ...authUser,
         user: newUser,
+        isVerifying: false,
       });
     });
   }, []);
