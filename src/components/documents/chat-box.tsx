@@ -25,7 +25,7 @@ export const ChatResponse = ({
   error?: Error | null;
 }) => {
   return (
-    <Card className="ring-0 w-fit max-w-4/5 bg-accent/75">
+    <Card className="ring-0 w-fit max-w-4/5">
       <CardContent>
         <div>
           {!isLoading && text ? (
