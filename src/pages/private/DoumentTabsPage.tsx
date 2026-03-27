@@ -15,6 +15,8 @@ import {
 } from 'react-router';
 import { useEffect } from 'react';
 
+const tabs = ['chat', 'preview'];
+
 const DoumentTabsPage = () => {
   const navigate = useNavigate();
   const context = useOutletContext<DocumentContext>();
@@ -34,7 +36,7 @@ const DoumentTabsPage = () => {
   };
 
   useEffect(() => {
-    navigate(tab);
+    tabs.includes(tab) ? navigate(tab) : navigate('preview');
   }, []);
 
   return (
