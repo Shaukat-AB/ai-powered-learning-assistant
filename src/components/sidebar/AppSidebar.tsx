@@ -9,16 +9,13 @@ import {
   SidebarTrigger,
 } from '../ui/sidebar';
 
-import { useSignOutMutation } from '@/hooks/auth';
+import SignoutButton from '../auth/SignoutButton';
+
 import { useAuth } from '@/context/AuthContext';
 import { Activity } from 'react';
-import ButtonWithArrow from '../ui-blocks/ButtonWithArrow';
 
 const AppSidebar = () => {
   const { user } = useAuth();
-
-  const { mutate } = useSignOutMutation();
-  const handleSignout = () => mutate();
 
   return (
     <Sidebar>
@@ -34,14 +31,9 @@ const AppSidebar = () => {
         <SidebarTrigger className="md:hidden ml-auto">
           <PanelLeftIcon />
         </SidebarTrigger>
+
         <Activity mode={!user ? 'hidden' : 'visible'}>
-          <ButtonWithArrow
-            size={'lg'}
-            variant={'outline'}
-            onClick={handleSignout}
-          >
-            Sign Out
-          </ButtonWithArrow>
+          <SignoutButton />
         </Activity>
       </SidebarFooter>
     </Sidebar>
