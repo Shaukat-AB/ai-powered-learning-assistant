@@ -34,7 +34,7 @@ const DoumentTabsPage = () => {
   };
 
   useEffect(() => {
-    navigate('preview');
+    navigate(tab);
   }, []);
 
   return (
