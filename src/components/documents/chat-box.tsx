@@ -31,17 +31,13 @@ export const ChatResponse = ({
           {!isLoading && text ? (
             <Markdown text={text} />
           ) : !error ? (
-            <CardDescription className="text-accent-foreground">
-              <p className="flex items-center gap-2">
-                thinking
-                <LoadingDots />
-              </p>
+            <CardDescription className="text-accent-foreground flex items-center gap-2">
+              <p>thinking</p>
+              <LoadingDots />
             </CardDescription>
           ) : (
             <CardDescription className="text-destructive">
-              <p className="flex items-center gap-2">
-                {error.message || 'Somthing Went Wrong!'}
-              </p>
+              <p>{error.message || 'Somthing Went Wrong!'}</p>
             </CardDescription>
           )}
         </div>

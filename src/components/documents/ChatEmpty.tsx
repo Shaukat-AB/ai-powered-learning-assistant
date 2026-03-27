@@ -6,8 +6,9 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from '../ui/empty';
+import { Spinner } from '../ui/spinner';
 
-const ChatEmpty = () => {
+const ChatEmpty = ({ isLoading = false }) => {
   return (
     <Empty>
       <EmptyHeader>
@@ -17,8 +18,12 @@ const ChatEmpty = () => {
         >
           <MessageSquare className="size-6" />
         </EmptyMedia>
+
         <EmptyTitle className="text-lg">Start a learning session</EmptyTitle>
-        <EmptyDescription>Ask a question or choose a topic.</EmptyDescription>
+        <EmptyDescription className="flex items-center justify-center gap-2">
+          Ask a question or choose a topic.
+          {isLoading && <Spinner />}
+        </EmptyDescription>
       </EmptyHeader>
     </Empty>
   );

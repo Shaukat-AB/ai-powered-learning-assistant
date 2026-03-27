@@ -1,29 +1,41 @@
-import { getResponse } from '@/services/ai/gen-ai';
-import { toast } from 'sonner';
+import { resumeChat, startChat } from '@/services/ai/gen-ai';
 
+import { toast } from 'sonner';
 import { useMutation } from '@tanstack/react-query';
 
-const getAIResponseKey = 'ai-response';
+const AIStartChatKey = 'ai-start-chat';
+const AIChatKey = 'ai-chat';
 
-export const useGetResponseMutation = () => {
+export const useChatMutation = (name: string | undefined) => {
   return useMutation({
-    mutationFn: async ({
-      prompt = '',
-      instruction = '',
-    }: {
-      prompt: string;
-      instruction?: string;
-    }) => {
-      if (!prompt) return;
+    mutationFn: async ({ prompt }: { prompt: string }) => {
+      if (!prompt || !name) return;
 
       try {
-        return await getResponse(prompt, instruction);
+        return await resumeChat({ prompt: prompt, name: name });
       } catch (error) {
         toast.error('AI Failed to respond!');
-        console.error('Get AI Response:', error);
+        console.error('Chat Mutation:', error);
       }
     },
-    mutationKey: [getAIResponseKey, prompt],
+    mutationKey: [AIChatKey, name],
+    retry: 3,
+  });
+};
+
+export const useStartChatMutation = (name: string | undefined) => {
+  return useMutation({
+    mutationFn: async ({ pdfUrl }: { pdfUrl: string }) => {
+      if (!prompt || !name) return;
+
+      try {
+        return await startChat({ pdfUrl: pdfUrl, name: name });
+      } catch (error) {
+        toast.error('AI Failed to respond!');
+        console.error('Start Chat Mutation:', error);
+      }
+    },
+    mutationKey: [AIStartChatKey, name],
     retry: 3,
   });
 };
