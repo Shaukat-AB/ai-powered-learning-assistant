@@ -93,11 +93,7 @@ export const startChat = async (
   }
 };
 
-export const resumeChat = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const chat = async (req: Request, res: Response, next: NextFunction) => {
   const { prompt, name } = req.body;
 
   try {
@@ -132,7 +128,7 @@ export const resumeChat = async (
     });
   } catch (err) {
     if (err instanceof Error) {
-      console.error('Failed to get ai response in resumeChat: ', err.message);
+      console.error('Failed to get ai response: ', err.message);
       next(err);
     }
     return null;

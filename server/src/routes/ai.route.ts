@@ -1,9 +1,9 @@
 import express from 'express';
-import { startChat, resumeChat } from '../controllers/ai.controller.js';
+import { startChat, chat } from '../controllers/ai.controller.js';
 
 const router = express.Router();
 
 router.post('/start-chat', startChat);
-router.post('/chat', resumeChat);
+router.post('/chat', chat);
 
 export default router;
