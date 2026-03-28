@@ -1,13 +1,9 @@
 import type { DocumentContext } from '@/components/documents/types';
 
-import { Card, CardContent } from '@/components/ui/card';
-import {
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyTitle,
-} from '@/components/ui/empty';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { EmptyDescription, EmptyTitle } from '@/components/ui/empty';
 
+import PDFUploader from '@/components/documents/PDFUploader';
 import useGetDocuments from '@/hooks/useGetDocuments';
 import { Link, Outlet, useParams } from 'react-router';
 
@@ -17,15 +13,20 @@ const DocumentsPage = () => {
 
   return !id ? (
     // Todo: make document uploadable feature.
-    <EmptyContent>
-      <EmptyHeader>
-        <EmptyTitle className="text-2xl">
-          <h2> Documents </h2>
-        </EmptyTitle>
-        <EmptyDescription>
-          <p>Manage documents</p>
-        </EmptyDescription>
-      </EmptyHeader>
+    <CardContent className="w-full">
+      <CardHeader className="flex items-center justify-between mb-(--main-py)">
+        <div>
+          <EmptyTitle className="text-2xl">
+            <h2> Documents </h2>
+          </EmptyTitle>
+          <EmptyDescription>
+            <p>Manage documents</p>
+          </EmptyDescription>
+        </div>
+
+        <PDFUploader />
+      </CardHeader>
+
       <CardContent className="w-full flex items-center justify-center gap-6">
         {docs?.map((doc) => (
           <Link key={doc?.id} to={`/documents/${doc.id}`}>
@@ -35,7 +36,7 @@ const DocumentsPage = () => {
           </Link>
         ))}
       </CardContent>
-    </EmptyContent>
+    </CardContent>
   ) : (
     <Outlet
       context={
