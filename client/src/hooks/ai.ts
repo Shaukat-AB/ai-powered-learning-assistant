@@ -1,4 +1,4 @@
-import { resumeChat, startChat } from '@/services/ai/gen-ai';
+import { chat, startChat } from '@/services/ai/gen-ai';
 
 import { toast } from 'sonner';
 import { useMutation } from '@tanstack/react-query';
@@ -12,7 +12,7 @@ export const useChatMutation = (name: string | undefined) => {
       if (!prompt || !name) return;
 
       try {
-        return await resumeChat({ prompt: prompt, name: name });
+        return await chat({ prompt: prompt, name: name });
       } catch (error) {
         toast.error('AI Failed to respond!');
         console.error('Chat Mutation:', error);
