@@ -3,7 +3,7 @@ import { startChat, resumeChat } from '../controllers/ai.controller.js';
 
 const router = express.Router();
 
-router.post('/start', startChat);
-router.post('/resume', resumeChat);
+router.post('/start-chat', startChat);
+router.post('/chat', resumeChat);
 
 export default router;
