@@ -1,0 +1,16 @@
+{
+  "name": "ai-learning-assistant",
+  "version": "0.0.0",
+  "private": true,
+  "description": "AI-Powered Learning Assist aims to enhance the learning process by offering personalized quizzes based on user-uploaded documents and providing interactive Q&A sessions through an AI chat assistant.",
+  "keywords": [],
+  "license": "ISC",
+  "author": "shaukat",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "client": "npm run dev --prefix client",
+    "server": "npm run dev --prefix server",
+    "build": "npm run build --prefix server && npm run build --prefix client"
+  }
+}
