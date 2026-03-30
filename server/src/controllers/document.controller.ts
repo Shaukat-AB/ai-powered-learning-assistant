@@ -13,7 +13,7 @@ export const getDocuments = async (
   try {
     const { data, error } = await storageFile.list('public', {
       limit: 10,
-      sortBy: { column: 'name', order: 'asc' },
+      sortBy: { column: 'created_at', order: 'asc' },
     });
 
     if (error) throw newError(error.message, error.status || 400);
