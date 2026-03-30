@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { config } from 'dotenv';
 import { newError } from '../lib/utils.js';
-import { BUCKET, storageFile, supabase } from '../lib/supabase.js';
+import { BUCKET, storageFile } from '../lib/supabase.js';
 
 config();
 
@@ -11,9 +11,23 @@ export const getDocuments = async (
   next: NextFunction
 ) => {
   try {
-    return res.status(200).json({
-      message: 'Get documents',
+    const { data, error } = await storageFile.list('public', {
+      limit: 10,
+      sortBy: { column: 'name', order: 'asc' },
     });
+
+    if (error) throw newError(error.message, error.status || 400);
+
+    return res.status(200).json(
+      data?.map((doc) => ({
+        id: doc.id,
+        name: doc.name,
+        url: storageFile.getPublicUrl(`${'public'}/${doc.name}`).data.publicUrl,
+        sizeBytes: doc.metadata?.size,
+        createdAt: doc.created_at,
+        updatedAt: doc.updated_at,
+      }))
+    );
   } catch (err) {
     if (err instanceof Error) {
       console.error('Failed to get documents: ', err.message);
@@ -48,8 +62,7 @@ export const uploadDocument = async (
     return res.status(200).json({
       id: data?.id,
       name: name,
-      path: data.path,
-      url: supabase.storage.from(BUCKET).getPublicUrl(pdfPath).data.publicUrl,
+      url: storageFile.getPublicUrl(pdfPath).data.publicUrl,
     });
   } catch (err) {
     if (err instanceof Error) {
