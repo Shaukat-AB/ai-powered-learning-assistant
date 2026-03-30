@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { EmptyDescription, EmptyTitle } from '@/components/ui/empty';
 
 import PDFUploader from '@/components/documents/PDFUploader';
-import useGetDocuments from '@/hooks/useGetDocuments';
+import { useGetDocuments } from '@/hooks/document';
 import { Link, Outlet, useParams } from 'react-router';
 
 const DocumentsPage = () => {
