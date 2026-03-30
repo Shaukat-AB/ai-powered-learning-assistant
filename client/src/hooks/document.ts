@@ -14,6 +14,7 @@ export const useGetDocuments = () => {
         toast.error('Failed to fetch documents');
         console.error('Failed to fetch documents: ', error);
       }
+      return null;
     },
     queryKey: queryDoumentsKey,
   });

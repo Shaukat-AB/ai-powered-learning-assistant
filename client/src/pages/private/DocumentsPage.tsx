@@ -1,14 +1,16 @@
 import type { DocumentContext } from '@/components/documents/types';
 
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { CardContent, CardHeader } from '@/components/ui/card';
 import { EmptyDescription, EmptyTitle } from '@/components/ui/empty';
 
 import PDFUploader from '@/components/documents/PDFUploader';
 import { useGetDocuments } from '@/hooks/document';
-import { Link, Outlet, useParams } from 'react-router';
+import { Outlet, useParams } from 'react-router';
+import DocumentCard from '@/components/documents/DocumentCard';
+import DocumentsSkeleton from '@/components/documents/DocumentsSkeleton';
 
 const DocumentsPage = () => {
-  const { data: docs } = useGetDocuments();
+  const { data: docs, isLoading } = useGetDocuments();
   const { id } = useParams();
 
   return !id ? (
@@ -26,15 +28,12 @@ const DocumentsPage = () => {
 
         <PDFUploader />
       </CardHeader>
-
-      <CardContent className="w-full flex items-center justify-center gap-6">
-        {docs?.map((doc) => (
-          <Link key={doc?.id} to={`/documents/${doc.id}`}>
-            <Card>
-              <CardContent>{doc.name}</CardContent>
-            </Card>
-          </Link>
-        ))}
+      <CardContent className="w-full flex flex-wrap items-center gap-6">
+        {!isLoading && Array.isArray(docs) ? (
+          docs.map((doc) => <DocumentCard doc={doc} key={doc.id} />)
+        ) : (
+          <DocumentsSkeleton />
+        )}
       </CardContent>
     </CardContent>
   ) : (
@@ -42,8 +41,7 @@ const DocumentsPage = () => {
       context={
         {
           doc:
-            (docs?.length && docs?.filter((doc) => doc.id === id)[0]) ||
-            undefined,
+            (docs?.length && docs?.find((doc) => doc.id === id)) || undefined,
         } satisfies DocumentContext
       }
     />

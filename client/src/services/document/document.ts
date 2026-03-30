@@ -1,11 +1,8 @@
 import type { TDocument } from '@/components/documents/types';
 import { apiClient } from '../api/api-client';
 
-const mockDoumentsPath = '/mock-documents/document.json'; // temporary
-
 export const getDocuments = async () => {
-  const res = await fetch(mockDoumentsPath);
-  const data = await res.json();
+  const data = await apiClient.get('/api/document/');
   return data as Array<TDocument>;
 };
 

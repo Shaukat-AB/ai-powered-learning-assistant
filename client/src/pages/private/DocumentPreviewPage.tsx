@@ -18,7 +18,7 @@ const DocumentPreviewPage = () => {
             asChild
           >
             <a
-              href={doc?.src}
+              href={doc?.url}
               target="_blank"
               rel="noopener noreferer"
               referrerPolicy="no-referrer"
@@ -32,7 +32,7 @@ const DocumentPreviewPage = () => {
           <iframe
             className="w-full h-full rounded-xl"
             loading="lazy"
-            src={doc?.src}
+            src={doc?.url}
           />
         </CardContent>
       </Card>
