@@ -4,6 +4,8 @@ import { config } from 'dotenv';
 import express from 'express';
 
 import aiRoutes from './routes/ai.route.js';
+import documentRoutes from './routes/document.route.js';
+
 import { errorMiddleware } from './middleware/error.middleware.js';
 
 config();
@@ -25,6 +27,7 @@ app.use(
 );
 // Routes
 app.use('/api/ai', aiRoutes);
+app.use('/api/document', documentRoutes);
 
 // Error Middleware
 app.use(errorMiddleware);
