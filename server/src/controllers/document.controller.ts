@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { config } from 'dotenv';
+
 import { newError } from '../lib/utils.js';
 import {
   BUCKET,
@@ -86,9 +87,21 @@ export const deleteDocument = async (
   res: Response,
   next: NextFunction
 ) => {
+  const { name } = req.body;
+
   try {
+    if (!name || typeof name !== 'string') {
+      throw newError('Invalid Document Name', 400);
+    }
+
+    const { data, error } = await storageFile.remove([getStoragePath(name)]);
+    if (error) {
+      throw newError(error.message, error.status || 400);
+    }
+
     return res.status(200).json({
-      message: 'delete document id',
+      success: true,
+      document: data && { id: data[0].id, name: name },
     });
   } catch (err) {
     if (err instanceof Error) {

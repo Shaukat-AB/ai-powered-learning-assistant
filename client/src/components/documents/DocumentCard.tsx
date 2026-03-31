@@ -12,8 +12,11 @@ import {
 } from '../ui/card';
 
 import { Link } from 'react-router';
+import { useDeleteDocumentMutation } from '@/hooks/document';
 
 const DocumentCard = ({ doc }: { doc: TDocument }) => {
+  const { mutate, isPending } = useDeleteDocumentMutation();
+
   return (
     <Link
       className="w-full lg:max-w-xs sm:max-w-3xs group"
@@ -31,7 +34,16 @@ const DocumentCard = ({ doc }: { doc: TDocument }) => {
             >
               <FileText />
             </div>
-            <Button size={'icon'} variant={'destructive'}>
+            <Button
+              size={'icon'}
+              variant={'destructive'}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                mutate(doc.name);
+              }}
+              disabled={isPending}
+            >
               <Trash2Icon />
             </Button>
           </div>

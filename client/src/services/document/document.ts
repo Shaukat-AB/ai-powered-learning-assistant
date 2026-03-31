@@ -10,3 +10,7 @@ export const uploadDocument = async (formData: FormData) => {
   const data = await apiClient.postFile('/api/document/upload', formData);
   return data;
 };
+
+export const deleteDocument = async (name: string) => {
+  return await apiClient.delete('/api/document/delete', { name });
+};
