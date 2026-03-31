@@ -21,7 +21,7 @@ export const getDocuments = async (
     return res.status(200).json(
       data?.map((doc) => ({
         id: doc.id,
-        name: doc.name,
+        name: doc.name.split('.')[0],
         url: storageFile.getPublicUrl(`${'public'}/${doc.name}`).data.publicUrl,
         sizeBytes: doc.metadata?.size,
         createdAt: doc.created_at,
@@ -46,7 +46,7 @@ export const uploadDocument = async (
   try {
     if (!pdf || !pdf.buffer) throw newError('File is invalid', 400);
 
-    const name = pdf.originalname.toLowerCase();
+    const name = pdf.originalname;
     const folder = 'public';
     const pdfPath = `${folder}/${name.endsWith('.pdf') ? name : name + '.pdf'}`;
 

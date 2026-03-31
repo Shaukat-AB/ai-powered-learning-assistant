@@ -7,7 +7,7 @@ import {
   ThinkingLevel,
 } from '@google/genai';
 import { config } from 'dotenv';
-import { newError } from '../lib/utils.js';
+import { isDocumentNameValid, newError } from '../lib/utils.js';
 
 config();
 
@@ -24,21 +24,21 @@ export const startChat = async (
 ) => {
   const { pdfUrl, name } = req.body;
 
-  if (!pdfUrl) {
-    return res.status(400).json({
-      message: 'Invalid pdfUrl',
-      success: false,
-    });
+  if (!pdfUrl || typeof pdfUrl !== 'string') {
+    throw newError('Invalid document url', 400);
+  }
+
+  if (typeof name !== 'string' || !isDocumentNameValid(name)) {
+    throw newError('Invalid document name', 400);
   }
 
   try {
     const fileExists = await aiGetFile(name);
-
     if (fileExists && !(fileExists instanceof Error)) {
       // This is ok and not a bad request
       return res.status(200).json({
         message: 'File already exists',
-        success: false,
+        success: true,
       });
     }
 
@@ -82,7 +82,7 @@ export const startChat = async (
     }
 
     return res.status(200).json({
-      success: file.uri && file.mimeType,
+      success: !!(file.uri && file.mimeType),
     });
   } catch (err) {
     if (err instanceof Error) {
@@ -95,6 +95,10 @@ export const startChat = async (
 
 export const chat = async (req: Request, res: Response, next: NextFunction) => {
   const { prompt, name } = req.body;
+
+  if (typeof name !== 'string' || !isDocumentNameValid(name)) {
+    throw newError('Invalid document name.', 400);
+  }
 
   try {
     const file = await aiGetFile(name);
@@ -119,6 +123,7 @@ export const chat = async (req: Request, res: Response, next: NextFunction) => {
       file?.uri ?? '',
       file?.mimeType ?? ''
     );
+
     const response = await chat.sendMessage({
       message: [prompt, fileContent],
     });
@@ -137,8 +142,7 @@ export const chat = async (req: Request, res: Response, next: NextFunction) => {
 
 const aiGetFile = async (name: string) => {
   try {
-    const file = await ai.files.get({ name: name });
-    return file;
+    return await ai.files.get({ name: name });
   } catch (error) {
     return error instanceof Error ? error : new Error('File not found');
   }
