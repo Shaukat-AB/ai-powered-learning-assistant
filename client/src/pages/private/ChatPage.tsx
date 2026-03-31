@@ -14,12 +14,12 @@ import { useOutletContext } from 'react-router';
 
 const ChatPage = () => {
   const { doc } = useOutletContext<DocumentContext>();
+
   const { mutate: startChat, isPending: isStarting } = useStartChatMutation(
-    doc?.name.toLowerCase()
+    doc?.name
   );
-  const { mutateAsync, isPending, error } = useChatMutation(
-    doc?.name.toLowerCase()
-  ); // name must be lowercase
+  const { mutateAsync, isPending, error } = useChatMutation(doc?.name);
+
   const [chats, setChats] = useState<TChat[]>([]);
   const cardRef = useScrollToEnd([chats]);
 
@@ -37,9 +37,9 @@ const ChatPage = () => {
 
   useEffect(() => {
     return () => {
-      if (doc && doc.src) {
+      if (doc && doc.url) {
         startChat({
-          pdfUrl: doc.src,
+          pdfUrl: doc.url,
         });
       }
     };

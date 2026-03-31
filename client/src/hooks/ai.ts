@@ -12,7 +12,11 @@ export const useChatMutation = (name: string | undefined) => {
       if (!prompt || !name) return;
 
       try {
-        return await chat({ prompt: prompt, name: name });
+        const res = await chat({ prompt: prompt, name: name });
+
+        if (typeof res === 'object' && !res?.success) toast.error(res?.message);
+
+        return res;
       } catch (error) {
         toast.error('AI Failed to respond!');
         console.error('Chat Mutation:', error);
@@ -29,7 +33,14 @@ export const useStartChatMutation = (name: string | undefined) => {
       if (!prompt || !name) return;
 
       try {
-        return await startChat({ pdfUrl: pdfUrl, name: name });
+        const res = await startChat({ pdfUrl: pdfUrl, name: name });
+
+        if ('message' in res && !res?.success) {
+          toast.error(res.message);
+          return null;
+        }
+
+        return res;
       } catch (error) {
         toast.error('AI Failed to respond!');
         console.error('Start Chat Mutation:', error);

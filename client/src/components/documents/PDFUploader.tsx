@@ -15,6 +15,7 @@ import {
   AlertDialogTrigger,
 } from '../ui/alert-dialog';
 
+import { documentNameValidater } from '@/lib/utils';
 import { toast } from 'sonner';
 import { useUploadDocumentMutation } from '@/hooks/document';
 import { useEffect, useState } from 'react';
@@ -29,6 +30,9 @@ const PDFUploader = () => {
 
   const [open, setOpen] = useState(false);
 
+  const invalidName =
+    name.length > 0 ? !documentNameValidater.isValid(name) : false;
+
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -37,22 +41,33 @@ const PDFUploader = () => {
       toast.error('Only PDF files are allowed');
       return;
     }
+
     if (file.size > maxSize) {
       toast.error('File size must be less than 1MB');
       return;
     }
+
     setPdf(file);
-    !name && setName(file.name);
+    !name && setName(documentNameValidater.validate(file.name.split('.')[0]));
   };
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const fd = new FormData();
+
     if (!pdf) {
       toast.error('No document was uploaded');
       return;
     }
+
+    if (!documentNameValidater.isValid(name)) {
+      toast.error(
+        'Name must be lowercase(no spaces) and separated by - but not consecutivly.'
+      );
+      return;
+    }
+
     fd.append(filedName, pdf, name);
 
     const uploaded = await mutateAsync(fd);
@@ -107,18 +122,30 @@ const PDFUploader = () => {
           <CardDescription>
             <label htmlFor="name">Document Name</label>
           </CardDescription>
-          <Input
-            aria-description="name of uploaded pdf document"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            type="text"
-          />
 
-          <CardDescription className="my-4">
+          <div className="relative">
+            <Input
+              aria-description="name of uploaded pdf document"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              type="text"
+              aria-invalid={invalidName}
+            />
+
+            {invalidName && (
+              <CardDescription className="absolute right-0 -bottom-5 text-destructive">
+                <small>
+                  use lowercase characters(no spaces) separated by -
+                </small>
+              </CardDescription>
+            )}
+          </div>
+
+          <CardDescription className="my-4 space-y-2">
+            <p>PDF Document</p>
+
             <label className="w-full space-y-2" htmlFor="pdf-document">
-              <p>PDF Document</p>
-
               <p className="w-full text-center text-sm text-muted-foreground min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 transition-colors outline-none">
                 <Upload className="h-24 w-24 p-4 mx-auto pointer-events-none" />
 
