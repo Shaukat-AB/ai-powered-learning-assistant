@@ -1,7 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { config } from 'dotenv';
 import { newError } from '../lib/utils.js';
-import { BUCKET, storageFile } from '../lib/supabase.js';
+import {
+  BUCKET,
+  getStoragePath,
+  getUrl,
+  storageFile,
+} from '../lib/supabase.js';
 
 config();
 
@@ -22,7 +27,7 @@ export const getDocuments = async (
       data?.map((doc) => ({
         id: doc.id,
         name: doc.name.split('.')[0],
-        url: storageFile.getPublicUrl(`${'public'}/${doc.name}`).data.publicUrl,
+        url: getUrl(doc.name),
         sizeBytes: doc.metadata?.size,
         createdAt: doc.created_at,
         updatedAt: doc.updated_at,
@@ -48,21 +53,24 @@ export const uploadDocument = async (
 
     const name = pdf.originalname;
     const folder = 'public';
-    const pdfPath = `${folder}/${name.endsWith('.pdf') ? name : name + '.pdf'}`;
 
     if (!BUCKET) throw newError('Failed to load .env variables');
 
-    const { data, error } = await storageFile.upload(pdfPath, pdf.buffer, {
-      contentType: pdf.mimetype,
-      upsert: false,
-    });
+    const { data, error } = await storageFile.upload(
+      getStoragePath(name, folder),
+      pdf.buffer,
+      {
+        contentType: pdf.mimetype,
+        upsert: false,
+      }
+    );
 
     if (error) throw newError(error.message, error.status || 400);
 
     return res.status(200).json({
       id: data?.id,
       name: name,
-      url: storageFile.getPublicUrl(pdfPath).data.publicUrl,
+      url: getUrl(name, folder),
     });
   } catch (err) {
     if (err instanceof Error) {
