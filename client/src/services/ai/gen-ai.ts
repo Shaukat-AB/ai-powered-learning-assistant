@@ -1,13 +1,7 @@
 import { apiClient } from '../api/api-client';
 
-export const startChat = async ({
-  pdfUrl,
-  name,
-}: {
-  pdfUrl: string;
-  name: string;
-}) => {
-  return await apiClient.post('/api/ai/start-chat', { pdfUrl, name });
+export const startChat = async ({ name }: { name: string }) => {
+  return await apiClient.post('/api/ai/start-chat', { name });
 };
 
 export const chat = async ({

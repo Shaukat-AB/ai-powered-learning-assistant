@@ -1,13 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 
+import { config } from 'dotenv';
 import {
   Chat,
   createPartFromUri,
   GoogleGenAI,
   ThinkingLevel,
 } from '@google/genai';
-import { config } from 'dotenv';
+
 import { isDocumentNameValid, newError } from '../lib/utils.js';
+import { getUrl, storageFileExists } from '../lib/supabase.js';
 
 config();
 
@@ -22,17 +24,24 @@ export const startChat = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { pdfUrl, name } = req.body;
-
-  if (!pdfUrl || typeof pdfUrl !== 'string') {
-    throw newError('Invalid document url', 400);
-  }
+  const { name } = req.body;
 
   if (typeof name !== 'string' || !isDocumentNameValid(name)) {
     throw newError('Invalid document name', 400);
   }
 
   try {
+    const { data: exists, error } = await storageFileExists(name);
+
+    if (!exists || error) {
+      throw newError(
+        error?.message || 'No Document was found',
+        error?.status || 404
+      );
+    }
+
+    const pdfUrl = getUrl(name);
+
     const fileExists = await aiGetFile(name);
     if (fileExists && !(fileExists instanceof Error)) {
       // This is ok and not a bad request

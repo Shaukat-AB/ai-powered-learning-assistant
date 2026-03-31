@@ -38,9 +38,7 @@ const ChatPage = () => {
   useEffect(() => {
     return () => {
       if (doc && doc.url) {
-        startChat({
-          pdfUrl: doc.url,
-        });
+        startChat();
       }
     };
   }, [doc?.id]);

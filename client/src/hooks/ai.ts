@@ -29,11 +29,11 @@ export const useChatMutation = (name: string | undefined) => {
 
 export const useStartChatMutation = (name: string | undefined) => {
   return useMutation({
-    mutationFn: async ({ pdfUrl }: { pdfUrl: string }) => {
-      if (!prompt || !name) return;
+    mutationFn: async () => {
+      if (!name) return;
 
       try {
-        const res = await startChat({ pdfUrl: pdfUrl, name: name });
+        const res = await startChat({ name: name });
 
         if ('message' in res && !res?.success) {
           toast.error(res.message);
