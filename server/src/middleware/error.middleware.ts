@@ -3,11 +3,11 @@ import { Request, Response, NextFunction } from 'express';
 
 export const errorMiddleware = (
   err: AppError,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
-  res.status(err?.status || 500).json({
+  return res.status(err?.status || 500).json({
     success: false,
     code: err?.status || 500,
     message: err?.message || 'Internal Server Error',
