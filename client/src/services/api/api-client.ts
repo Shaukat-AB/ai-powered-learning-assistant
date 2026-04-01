@@ -1,3 +1,5 @@
+import { currentUser } from '@/lib/firebase';
+
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export type TEndpoint =
@@ -9,59 +11,85 @@ export type TEndpoint =
 
 export const apiClient = {
   get: async (endpoint: TEndpoint) => {
+    const token = await currentUser?.getIdToken();
     const res = await fetch(BASE_URL + endpoint, {
       method: 'GET',
       credentials: 'include',
+
+      headers: authHeaderObj(token),
     });
 
     return await res.json();
   },
 
   post: async (endpoint: TEndpoint, data: unknown = null) => {
+    const token = await currentUser?.getIdToken();
+
     const res = await fetch(BASE_URL + endpoint, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: data ? JSON.stringify(data) : null,
       credentials: 'include',
+
+      headers: {
+        'Content-Type': 'application/json',
+        ...authHeaderObj(token),
+      },
     });
 
     return await res.json();
   },
 
   postFile: async (endpoint: TEndpoint, data: FormData) => {
+    const token = await currentUser?.getIdToken();
+
     const res = await fetch(BASE_URL + endpoint, {
       method: 'POST',
       body: data,
       credentials: 'include',
+
+      headers: authHeaderObj(token),
     });
     return await res.json();
   },
 
   put: async (endpoint: TEndpoint, data: unknown = null) => {
+    const token = await currentUser?.getIdToken();
+
     const res = await fetch(BASE_URL + endpoint, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: data ? JSON.stringify(data) : null,
       credentials: 'include',
+
+      headers: {
+        'Content-Type': 'application/json',
+        ...authHeaderObj(token),
+      },
     });
 
     return await res.json();
   },
 
   delete: async (endpoint: TEndpoint, data: unknown = null) => {
+    const token = await currentUser?.getIdToken();
+
     const res = await fetch(BASE_URL + endpoint, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: data ? JSON.stringify(data) : null,
       credentials: 'include',
+
+      headers: {
+        'Content-Type': 'application/json',
+        ...authHeaderObj(token),
+      },
     });
 
     return await res.json();
   },
 };
+
+export const authHeaderObj = (token: string | undefined) =>
+  token
+    ? {
+        Authorization: `Bearer ${token}`,
+      }
+    : undefined;

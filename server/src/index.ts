@@ -7,6 +7,7 @@ import aiRoutes from './routes/ai.route.js';
 import documentRoutes from './routes/document.route.js';
 
 import { errorMiddleware } from './middleware/error.middleware.js';
+import { authorize } from './middleware/auth.middleware.js';
 
 config();
 
@@ -25,9 +26,10 @@ app.use(
     credentials: true,
   })
 );
+
 // Routes
-app.use('/api/ai', aiRoutes);
-app.use('/api/document', documentRoutes);
+app.use('/api/ai', authorize, aiRoutes);
+app.use('/api/document', authorize, documentRoutes);
 
 // Error Middleware
 app.use(errorMiddleware);
