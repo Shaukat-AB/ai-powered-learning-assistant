@@ -24,13 +24,13 @@ export const startChat = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { name } = req.body;
-
-  if (typeof name !== 'string' || !isDocumentNameValid(name)) {
-    throw newError('Invalid document name', 400);
-  }
-
   try {
+    const { name } = req.body;
+
+    if (typeof name !== 'string' || !isDocumentNameValid(name)) {
+      throw newError('Invalid document name', 400);
+    }
+
     const { data: exists, error } = await storageFileExists(name);
 
     if (!exists || error) {
@@ -103,13 +103,13 @@ export const startChat = async (
 };
 
 export const chat = async (req: Request, res: Response, next: NextFunction) => {
-  const { prompt, name } = req.body;
-
-  if (typeof name !== 'string' || !isDocumentNameValid(name)) {
-    throw newError('Invalid document name.', 400);
-  }
-
   try {
+    const { prompt, name } = req.body;
+
+    if (typeof name !== 'string' || !isDocumentNameValid(name)) {
+      throw newError('Invalid document name.', 400);
+    }
+
     const file = await aiGetFile(name);
 
     if (file instanceof Error) throw newError(file?.message, 404);
