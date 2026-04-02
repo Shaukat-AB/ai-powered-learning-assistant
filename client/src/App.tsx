@@ -16,14 +16,20 @@ import NotFoundPage from './pages/error/NotFoundPage';
 import { queryClient } from './lib/react-query';
 import { logError } from './lib/utils';
 
+import { Toaster } from './components/ui/sonner';
+import { ThemeProvider } from 'next-themes';
 import { ErrorBoundary } from 'react-error-boundary';
 import { AuthProvider } from './context/AuthContext';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { Toaster } from './components/ui/sonner';
 
 function App() {
   return (
-    <>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
       <Toaster position="top-right" />
 
       <Router>
@@ -60,7 +66,7 @@ function App() {
           </AuthProvider>
         </QueryClientProvider>
       </Router>
-    </>
+    </ThemeProvider>
   );
 }
 

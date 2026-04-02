@@ -21,6 +21,7 @@ const Header = () => {
       <Activity mode={isLoggedin ? 'visible' : 'hidden'}>
         <CardContent className="flex items-center ml-auto">
           <UserAccountDropdown />
+
           <CardContent className="px-3 hidden md:block">
             <CardTitle>{user?.displayName}</CardTitle>
             <CardDescription>Signed in</CardDescription>
