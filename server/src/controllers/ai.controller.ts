@@ -1,22 +1,16 @@
-import { Request, Response, NextFunction } from 'express';
-
-import { config } from 'dotenv';
-import {
-  Chat,
-  createPartFromUri,
-  GoogleGenAI,
-  ThinkingLevel,
-} from '@google/genai';
+import type { Request, Response, NextFunction } from 'express';
+import type { TUser } from '../lib/fire-base-admin.js';
 
 import { isDocumentNameValid, newError } from '../lib/utils.js';
 import { getSignedUrl, storageFileExists } from '../lib/supabase.js';
-import { TUser } from '../lib/fire-base-admin.js';
 
-config();
-
-const ai = new GoogleGenAI({ apiKey: process.env.AI_API_KEY });
-const systemInstruction = process.env.VITE_AI_INSTRUCTION;
-const model = 'gemini-3-flash-preview';
+import {
+  ai,
+  aiGetFile,
+  Chat,
+  createChat,
+  createFileContent,
+} from '../lib/google-genai.js';
 
 const chatMap = new Map<string, Chat>(); // keep short-term history;
 
@@ -54,16 +48,7 @@ export const startChat = async (
       });
     }
 
-    const chat = ai.chats.create({
-      model: model,
-      config: {
-        systemInstruction: systemInstruction,
-        thinkingConfig: {
-          thinkingLevel: ThinkingLevel.LOW,
-        },
-      },
-    });
-
+    const chat = createChat();
     chatMap.set(name, chat);
 
     const pdfBuffer = await fetch(pdfUrl).then((response) =>
@@ -119,22 +104,11 @@ export const chat = async (req: Request, res: Response, next: NextFunction) => {
 
     let chat = chatMap.get(name);
     if (!chat) {
-      chat = ai.chats.create({
-        model: model,
-        config: {
-          systemInstruction: systemInstruction,
-          thinkingConfig: {
-            thinkingLevel: ThinkingLevel.LOW,
-          },
-        },
-      });
+      chat = createChat();
       chatMap.set(name, chat);
     }
 
-    const fileContent = createPartFromUri(
-      file?.uri ?? '',
-      file?.mimeType ?? ''
-    );
+    const fileContent = createFileContent(file);
 
     const response = await chat.sendMessage({
       message: [prompt, fileContent],
@@ -149,13 +123,5 @@ export const chat = async (req: Request, res: Response, next: NextFunction) => {
       next(err);
     }
     return null;
-  }
-};
-
-const aiGetFile = async (name: string) => {
-  try {
-    return await ai.files.get({ name: name });
-  } catch (error) {
-    return error instanceof Error ? error : new Error('File not found');
   }
 };
