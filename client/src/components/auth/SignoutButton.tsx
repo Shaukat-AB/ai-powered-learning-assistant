@@ -8,8 +8,13 @@ const SignoutButton = ({
   ...props
 }: React.ComponentProps<typeof ButtonWithArrow>) => {
   const { mutate } = useSignOutMutation();
-  const handleSignout = () => mutate();
 
+  const handleSignout = (
+    e: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+  ) => {
+    mutate();
+    onClick && onClick(e);
+  };
   return (
     <ButtonWithArrow
       className={className}

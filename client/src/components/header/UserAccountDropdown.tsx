@@ -11,16 +11,22 @@ import { CardContent, CardDescription, CardTitle } from '../ui/card';
 
 import { User } from 'lucide-react';
 
-import { useAuth } from '@/context/AuthContext';
 import SignoutButton from '../auth/SignoutButton';
+import { useAuth } from '@/context/AuthContext';
 import { useTheme } from 'next-themes';
+import { useState } from 'react';
 
 const UserAccountDropdown = () => {
   const { user } = useAuth();
   const { theme, setTheme, themes } = useTheme();
+  const [open, setOpen] = useState(false);
 
   return (
-    <DropdownMenu defaultOpen={false}>
+    <DropdownMenu
+      open={open}
+      defaultOpen={false}
+      onOpenChange={(v) => setOpen(v)}
+    >
       <DropdownMenuTrigger className="rounded-full">
         <Avatar
           size="lg"
@@ -74,7 +80,11 @@ const UserAccountDropdown = () => {
 
         <DropdownMenuSeparator />
 
-        <SignoutButton className="w-full" variant={'destructive'} />
+        <SignoutButton
+          onClick={() => setOpen(false)}
+          className="w-full"
+          variant={'destructive'}
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   );
