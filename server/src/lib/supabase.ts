@@ -1,25 +1,66 @@
-import { createClient } from '@supabase/supabase-js';
 import { config } from 'dotenv';
+import { newError } from './utils.js';
+import { createClient } from '@supabase/supabase-js';
 
 config();
 
-export const BUCKET = process.env.SUPABASE_BUCKET_NAME;
+const BUCKET = process.env.SUPABASE_BUCKET_NAME;
+const signedUrlExpiresIn = 60 * 30; // 30 mins
 
-export const supabase = createClient(
+const supabase = createClient(
   process.env.SUPABASE_URL ?? '',
-  process.env.SUPABASE_PUBLISHABLE_DEFAULT_KEY ?? ''
+  process.env.SUPABASE_SECRET_KEY ?? ''
 );
 
-export const storageFile = supabase.storage.from(BUCKET ?? '');
+const storageFile = supabase.storage.from(BUCKET ?? '');
 
-export const getStoragePath = (name: string, folder = 'public') => {
+const getStoragePath = (name: string, folder = 'public') => {
   return `${folder}/${name.endsWith('.pdf') ? name : name + '.pdf'}`;
 };
 
-export const getUrl = (name: string, folder = 'public') => {
-  return storageFile.getPublicUrl(getStoragePath(name, folder)).data.publicUrl;
+const getSignedUrl = async (name: string, folder: string | undefined) => {
+  const { data, error } = await storageFile.createSignedUrl(
+    getStoragePath(name, folder),
+    signedUrlExpiresIn
+  );
+
+  if (error) {
+    throw newError(error.message, error.status || 400);
+  }
+
+  return data.signedUrl;
 };
 
-export const storageFileExists = (name: string) => {
-  return storageFile.exists(getStoragePath(name));
+const getSignedUrls = async (names: string[], folder: string | undefined) => {
+  const { data, error } = await storageFile.createSignedUrls(
+    names.map((name) => getStoragePath(name, folder)),
+    signedUrlExpiresIn
+  );
+
+  if (error) {
+    throw newError(error.message, error.status || 400);
+  }
+
+  return data.map((d) => d.signedUrl);
+};
+
+const storageFileExists = (name: string, folder: string | undefined) => {
+  return storageFile.exists(getStoragePath(name, folder));
+};
+
+const setAuthSession = (access_token: string) => {
+  return supabase.auth.setSession({
+    access_token,
+    refresh_token: '',
+  });
+};
+
+export {
+  BUCKET,
+  storageFile,
+  getStoragePath,
+  setAuthSession,
+  storageFileExists,
+  getSignedUrls,
+  getSignedUrl,
 };

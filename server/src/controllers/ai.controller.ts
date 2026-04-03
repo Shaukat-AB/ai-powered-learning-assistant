@@ -9,7 +9,8 @@ import {
 } from '@google/genai';
 
 import { isDocumentNameValid, newError } from '../lib/utils.js';
-import { getUrl, storageFileExists } from '../lib/supabase.js';
+import { getSignedUrl, storageFileExists } from '../lib/supabase.js';
+import { TUser } from '../lib/fire-base-admin.js';
 
 config();
 
@@ -20,7 +21,7 @@ const model = 'gemini-3-flash-preview';
 const chatMap = new Map<string, Chat>(); // keep short-term history;
 
 export const startChat = async (
-  req: Request,
+  req: Request & { user?: TUser },
   res: Response,
   next: NextFunction
 ) => {
@@ -31,7 +32,10 @@ export const startChat = async (
       throw newError('Invalid document name', 400);
     }
 
-    const { data: exists, error } = await storageFileExists(name);
+    const { data: exists, error } = await storageFileExists(
+      name,
+      req?.user?.uid
+    );
 
     if (!exists || error) {
       throw newError(
@@ -40,8 +44,7 @@ export const startChat = async (
       );
     }
 
-    const pdfUrl = getUrl(name);
-
+    const pdfUrl = await getSignedUrl(name, req?.user?.uid);
     const fileExists = await aiGetFile(name);
     if (fileExists && !(fileExists instanceof Error)) {
       // This is ok and not a bad request
