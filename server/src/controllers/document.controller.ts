@@ -1,6 +1,6 @@
-import { type TUser } from '../lib/fire-base-admin.js';
+import type { RequestWithUser } from '../lib/types.js';
+import type { Response, NextFunction } from 'express';
 
-import { Request, Response, NextFunction } from 'express';
 import { config } from 'dotenv';
 
 import { newError } from '../lib/utils.js';
@@ -13,8 +13,6 @@ import {
 } from '../lib/supabase.js';
 
 config();
-
-type RequestWithUser = Request & { user?: TUser };
 
 export const getDocuments = async (
   req: RequestWithUser,

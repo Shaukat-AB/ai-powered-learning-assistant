@@ -1,6 +1,7 @@
-import multer from 'multer';
+import type { Request } from 'express';
+
 import { newError } from '../lib/utils.js';
-import { Request } from 'express';
+import multer from 'multer';
 
 const storage = multer.memoryStorage();
 const fieldName = 'document';

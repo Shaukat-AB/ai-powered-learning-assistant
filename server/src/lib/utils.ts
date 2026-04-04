@@ -1,6 +1,4 @@
-export interface AppError extends Error {
-  status?: number;
-}
+import type { AppError } from './types.js';
 
 export const newError = (message = 'Internal Server Error', status = 500) => {
   const err = new Error(message) as AppError;

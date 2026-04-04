@@ -1,5 +1,5 @@
-import type { Request, Response, NextFunction } from 'express';
-import type { TUser } from '../lib/fire-base-admin.js';
+import type { Response, NextFunction } from 'express';
+import type { RequestWithUser } from '../lib/types.js';
 
 import { isDocumentNameValid, newError } from '../lib/utils.js';
 import { getSignedUrl, storageFileExists } from '../lib/supabase.js';
@@ -15,7 +15,7 @@ import {
 const chatMap = new Map<string, Chat>(); // keep short-term history;
 
 export const startChat = async (
-  req: Request & { user?: TUser },
+  req: RequestWithUser,
   res: Response,
   next: NextFunction
 ) => {
@@ -90,7 +90,11 @@ export const startChat = async (
   }
 };
 
-export const chat = async (req: Request, res: Response, next: NextFunction) => {
+export const chat = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { prompt, name } = req.body;
 

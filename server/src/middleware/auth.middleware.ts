@@ -1,11 +1,12 @@
-import { Request, Response, NextFunction } from 'express';
+import type { RequestWithUser } from '../lib/types.js';
+import type { Response, NextFunction } from 'express';
 
 import { newError } from '../lib/utils.js';
-import { auth, TUser } from '../lib/fire-base-admin.js';
+import { auth } from '../lib/fire-base-admin.js';
 import { setAuthSession } from '../lib/supabase.js';
 
 export const authorize = async (
-  req: Request & { user?: TUser },
+  req: RequestWithUser,
   _res: Response,
   next: NextFunction
 ) => {
