@@ -10,7 +10,7 @@ import {
 
 config();
 
-const systemInstruction = process.env.VITE_AI_INSTRUCTION;
+const aiChatInstruction = process.env.AI_CHAT_INSTRUCTION;
 const model = 'gemini-3-flash-preview';
 
 const ai = new GoogleGenAI({ apiKey: process.env.AI_API_KEY });
@@ -20,7 +20,7 @@ const createChat = () => {
   return ai.chats.create({
     model: model,
     config: {
-      systemInstruction: systemInstruction,
+      systemInstruction: aiChatInstruction,
       thinkingConfig: thinkingConfig,
     },
   });
