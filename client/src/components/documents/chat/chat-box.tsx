@@ -1,7 +1,7 @@
-import { Card, CardContent, CardDescription } from '../ui/card';
-import LoadingDots from '../ui-blocks/LoadingDots';
+import { Card, CardContent, CardDescription } from '@/components/ui/card';
+import LoadingDots from '@/components/ui-blocks/LoadingDots';
 
-import Markdown from './Markdown';
+import Markdown from '../Markdown';
 
 export const ChatPrompt = ({ text = '' }) => {
   return (

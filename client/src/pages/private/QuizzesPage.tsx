@@ -5,7 +5,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-import GenerateQuiz from '@/components/documents/GenerateQuiz';
+import GenerateQuiz from '@/components/documents/quiz/GenerateQuiz';
 
 const QuizzesPage = () => {
   return (

@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { Button } from '../ui/button';
-import { Textarea } from '../ui/textarea';
 import { SendHorizonalIcon } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { useState } from 'react';
 
 const ChatTextArea = ({
   onSubmit,

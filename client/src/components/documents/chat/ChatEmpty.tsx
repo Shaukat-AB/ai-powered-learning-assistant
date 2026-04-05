@@ -5,8 +5,8 @@ import {
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
-} from '../ui/empty';
-import { Spinner } from '../ui/spinner';
+} from '@/components/ui/empty';
+import { Spinner } from '@/components/ui/spinner';
 
 const ChatEmpty = ({ isLoading = false }) => {
   return (

@@ -1,4 +1,4 @@
-import type { DocumentContext } from './types';
+import type { DocumentContext } from '../types';
 
 import { PlusIcon, XIcon } from 'lucide-react';
 
@@ -11,16 +11,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '../ui/alert-dialog';
-import { Button } from '../ui/button';
-import { CardDescription } from '../ui/card';
-import { Input } from '../ui/input';
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { CardDescription } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
 
 import { useGenerateQuizMutation } from '@/hooks/quiz';
 import { useOutletContext } from 'react-router';
 import { useEffect, useState } from 'react';
-import { Spinner } from '../ui/spinner';
 
 const invalidTotalMessage =
   'Total questions must be at least 3 and at most 100';

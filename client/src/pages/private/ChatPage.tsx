@@ -2,9 +2,9 @@ import type { DocumentContext, TChat } from '@/components/documents/types';
 
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 
-import ChatEmpty from '@/components/documents/ChatEmpty';
-import ChatTextArea from '@/components/documents/ChatTextArea';
-import { ChatPrompt, ChatResponse } from '@/components/documents/chat-box';
+import ChatEmpty from '@/components/documents/chat/ChatEmpty';
+import ChatTextArea from '@/components/documents/chat/ChatTextArea';
+import { ChatPrompt, ChatResponse } from '@/components/documents/chat/chat-box';
 
 import useScrollToEnd from '@/hooks/useScrollToEnd';
 import { useChatMutation, useStartChatMutation } from '@/hooks/ai';
