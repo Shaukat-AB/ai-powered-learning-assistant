@@ -15,7 +15,7 @@ import {
 } from 'react-router';
 import { useEffect } from 'react';
 
-const tabs = ['chat', 'preview'];
+const tabs = ['preview', 'chat', 'quizzes'];
 
 const DoumentTabsPage = () => {
   const navigate = useNavigate();
@@ -31,6 +31,9 @@ const DoumentTabsPage = () => {
         break;
       case 'chat':
         navigate('chat');
+        break;
+      case 'quizzes':
+        navigate('quizzes');
         break;
     }
   };
@@ -51,8 +54,11 @@ const DoumentTabsPage = () => {
 
         <Tabs defaultValue="preview" value={tab} onValueChange={onValueChange}>
           <TabsList className="gap-4" variant="line">
-            <TabsTrigger value="preview">Preview</TabsTrigger>
-            <TabsTrigger value="chat">Chat</TabsTrigger>
+            {tabs.map((t) => (
+              <TabsTrigger className="capitalize" key={t} value={t}>
+                {t}
+              </TabsTrigger>
+            ))}
           </TabsList>
         </Tabs>
       </CardHeader>

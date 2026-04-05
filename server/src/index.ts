@@ -5,6 +5,7 @@ import express from 'express';
 
 import aiRoutes from './routes/ai.route.js';
 import documentRoutes from './routes/document.route.js';
+import quizRoutes from './routes/quiz.route.js';
 
 import { errorMiddleware } from './middleware/error.middleware.js';
 import { authorize } from './middleware/auth.middleware.js';
@@ -30,6 +31,7 @@ app.use(
 // Routes
 app.use('/api/ai', authorize, aiRoutes);
 app.use('/api/document', authorize, documentRoutes);
+app.use('/api/quiz', authorize, quizRoutes);
 
 // Error Middleware
 app.use(errorMiddleware);

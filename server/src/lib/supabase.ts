@@ -5,6 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 config();
 
 const BUCKET = process.env.SUPABASE_BUCKET_NAME;
+const QuizzesTableName = process.env.SUPABSE_QUIZZES_TABLE_NAME ?? '';
 const signedUrlExpiresIn = 60 * 30; // 30 mins
 
 const supabase = createClient(
@@ -13,6 +14,7 @@ const supabase = createClient(
 );
 
 const storageFile = supabase.storage.from(BUCKET ?? '');
+const quizzesTable = supabase.from(QuizzesTableName);
 
 const getStoragePath = (name: string, folder = 'public') => {
   return `${folder}/${name.endsWith('.pdf') ? name : name + '.pdf'}`;
@@ -55,9 +57,21 @@ const setAuthSession = (access_token: string) => {
   });
 };
 
+const upsert_append_quiz = async (id: string, quiz: object) => {
+  const { data, error } = await supabase.rpc('upsert_append_quiz', {
+    row_id: id,
+    quiz: quiz,
+  });
+
+  if (error) throw newError(error.message);
+  return data;
+};
+
 export {
   BUCKET,
   storageFile,
+  quizzesTable,
+  upsert_append_quiz,
   getStoragePath,
   setAuthSession,
   storageFileExists,

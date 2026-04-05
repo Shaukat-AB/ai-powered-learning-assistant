@@ -7,9 +7,10 @@ import WelcomePage from './pages/public/WelcomePage';
 
 import DashboardPage from './pages/private/DashboardPage';
 import DocumentsPage from './pages/private/DocumentsPage';
-import DocumentPreviewPage from './pages/private/DocumentPreviewPage';
 import DocumentTabsPage from '@/pages/private/DoumentTabsPage';
+import DocumentPreviewPage from './pages/private/DocumentPreviewPage';
 import ChatPage from './pages/private/ChatPage';
+import QuizzesPage from './pages/private/QuizzesPage';
 import ErrorPage from './pages/error/ErrorPage';
 import NotFoundPage from './pages/error/NotFoundPage';
 
@@ -49,11 +50,13 @@ function App() {
 
                     <Route path="/documents/" element={<DocumentsPage />}>
                       <Route path=":id" element={<DocumentTabsPage />}>
-                        <Route path="chat" element={<ChatPage />} />
                         <Route
                           path="preview"
                           element={<DocumentPreviewPage />}
                         />
+
+                        <Route path="chat" element={<ChatPage />} />
+                        <Route path="quizzes" element={<QuizzesPage />} />
                       </Route>
                     </Route>
                   </Route>

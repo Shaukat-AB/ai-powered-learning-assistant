@@ -7,7 +7,8 @@ export type TEndpoint =
   | '/api/ai/chat'
   | '/api/document/'
   | '/api/document/delete'
-  | '/api/document/upload';
+  | '/api/document/upload'
+  | '/api/quiz/generate';
 
 export const apiClient = {
   get: async (endpoint: TEndpoint) => {
