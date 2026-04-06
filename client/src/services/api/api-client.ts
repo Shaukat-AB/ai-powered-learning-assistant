@@ -9,7 +9,8 @@ export type TEndpoint =
   | '/api/document/delete'
   | '/api/document/upload'
   | '/api/quiz/generate'
-  | '/api/quiz/get';
+  | '/api/quiz/get'
+  | '/api/quiz/delete';
 
 export const apiClient = {
   get: async (endpoint: TEndpoint, param = '') => {

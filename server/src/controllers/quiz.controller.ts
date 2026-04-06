@@ -8,7 +8,9 @@ import {
   aiQuizzInstruction,
   createFileContent,
 } from '../lib/google-genai.js';
+
 import {
+  deleteQuizById,
   fetchQuizzesByIdAndDocument,
   upsertAppendQuiz,
 } from '../lib/supabase.js';
@@ -121,5 +123,35 @@ export const generateQuiz = async (
       next(err);
     }
     return null;
+  }
+};
+
+export const deleteQuiz = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.body;
+
+    if (typeof id !== 'string' || !id) {
+      throw newError('Invalid quiz id.', 400);
+    }
+
+    const deletedId = await deleteQuizById(req.user?.uid ?? '', id);
+
+    if (!deletedId) throw newError('Quiz of id was not found', 404);
+
+    return res.status(200).json({
+      success: true,
+      deletedId,
+    });
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error('Failed to get quizzes: ', err.message);
+      next(err);
+    }
+
+    return;
   }
 };

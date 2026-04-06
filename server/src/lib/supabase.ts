@@ -81,12 +81,24 @@ const fetchQuizzesByIdAndDocument = async (
   return data as object[];
 };
 
+const deleteQuizById = async (userId: string, quizId: string) => {
+  const { data, error } = await supabase.rpc('delete_quiz', {
+    row_id: userId,
+    quiz_id: quizId,
+  });
+
+  if (error) throw newError(error.message);
+
+  return data as string | null;
+};
+
 export {
   BUCKET,
   storageFile,
   quizzesTable,
   upsertAppendQuiz,
   fetchQuizzesByIdAndDocument,
+  deleteQuizById,
   getStoragePath,
   setAuthSession,
   storageFileExists,

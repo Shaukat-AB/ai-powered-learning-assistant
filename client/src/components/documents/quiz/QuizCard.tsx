@@ -12,8 +12,11 @@ import {
 import { Button, buttonVariants } from '@/components/ui/button';
 
 import { Link } from 'react-router';
+import { useDeleteQuizMutation } from '@/hooks/quiz';
 
 const QuizCard = ({ quiz }: { quiz: TQuiz }) => {
+  const { mutate, isPending } = useDeleteQuizMutation();
+
   return (
     <Card className="w-full lg:max-w-xs sm:max-w-3xs group hover:ring-primary/25 hover:-translate-y-0.5 duration-200 transition-all ease-out hover:shadow-sm will-change-transform">
       <CardHeader className="w-full space-y-6">
@@ -31,6 +34,12 @@ const QuizCard = ({ quiz }: { quiz: TQuiz }) => {
             size={'icon'}
             className="not-group-hover:bg-accent not-group-hover:text-accent-foreground"
             variant={'destructive'}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              mutate(quiz.id);
+            }}
+            disabled={isPending}
           >
             <Trash2Icon />
           </Button>

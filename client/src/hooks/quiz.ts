@@ -1,11 +1,12 @@
 import { toast } from 'sonner';
 
-import { generateQuiz, getQuizzes } from '@/services/quiz/quiz';
+import { deleteQuiz, generateQuiz, getQuizzes } from '@/services/quiz/quiz';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/react-query';
 
-const genQuizKey = ['generate-quiz'];
 const queryQuizzesKey = 'quizzes';
+const genQuizKey = ['generate-quiz'];
+const deleteQuizKey = ['delete-quiz'];
 
 export const useGetQuizzes = (name: string | undefined) => {
   return useQuery({
@@ -36,6 +37,25 @@ export const useGenerateQuizMutation = () => {
     },
 
     mutationKey: genQuizKey,
+    onSuccess: (_data) =>
+      queryClient.invalidateQueries({
+        queryKey: [queryQuizzesKey],
+      }),
+  });
+};
+
+export const useDeleteQuizMutation = () => {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      try {
+        return await deleteQuiz(id);
+      } catch (error) {
+        toast.error('Failed to delete quiz');
+        console.error('Failed to delete quiz: ', error);
+      }
+    },
+
+    mutationKey: deleteQuizKey,
     onSuccess: (_data) =>
       queryClient.invalidateQueries({
         queryKey: [queryQuizzesKey],

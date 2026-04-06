@@ -10,3 +10,7 @@ export const getQuizzes = async (name: string) => {
   const data = await apiClient.get('/api/quiz/get', name);
   return data as TQuizzes;
 };
+
+export const deleteQuiz = async (id: string) => {
+  return await apiClient.delete('/api/quiz/delete', { id });
+};
