@@ -26,7 +26,7 @@ export const getQuizzes = async (
     }
     const data = await fetchQuizzesByIdAndDocument(req.user?.uid ?? '', name);
 
-    return res.json(data);
+    return res.status(200).json(data);
   } catch (err) {
     if (err instanceof Error) {
       console.error('Failed to get quizzes: ', err.message);
