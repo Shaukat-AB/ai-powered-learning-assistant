@@ -8,7 +8,34 @@ import {
   aiQuizzInstruction,
   createFileContent,
 } from '../lib/google-genai.js';
-import { upsertAppendQuiz } from '../lib/supabase.js';
+import {
+  fetchQuizzesByIdAndDocument,
+  upsertAppendQuiz,
+} from '../lib/supabase.js';
+
+export const getQuizzes = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { name } = req.params;
+
+    if (typeof name !== 'string' || !isDocumentNameValid(name)) {
+      throw newError('Invalid document name.', 400);
+    }
+    const data = await fetchQuizzesByIdAndDocument(req.user?.uid ?? '', name);
+
+    return res.json(data);
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error('Failed to get quizzes: ', err.message);
+      next(err);
+    }
+
+    return;
+  }
+};
 
 export const generateQuiz = async (
   req: RequestWithUser,

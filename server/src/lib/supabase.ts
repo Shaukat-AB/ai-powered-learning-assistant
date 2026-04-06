@@ -67,11 +67,26 @@ const upsertAppendQuiz = async (id: string, quiz: object) => {
   return data;
 };
 
+const fetchQuizzesByIdAndDocument = async (
+  id: string,
+  documentName: string
+) => {
+  const { data, error } = await supabase.rpc('fetch_quizzes', {
+    row_id: id,
+    document_name: documentName,
+  });
+
+  if (error) throw newError(error.message);
+
+  return data as object[];
+};
+
 export {
   BUCKET,
   storageFile,
   quizzesTable,
   upsertAppendQuiz,
+  fetchQuizzesByIdAndDocument,
   getStoragePath,
   setAuthSession,
   storageFileExists,
