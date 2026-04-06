@@ -8,7 +8,7 @@ import {
   aiQuizzInstruction,
   createFileContent,
 } from '../lib/google-genai.js';
-import { upsert_append_quiz } from '../lib/supabase.js';
+import { upsertAppendQuiz } from '../lib/supabase.js';
 
 export const generateQuiz = async (
   req: RequestWithUser,
@@ -30,7 +30,6 @@ export const generateQuiz = async (
     const prompt = `Carefully review the document and generate - ${total} questions, generate - ${optionsPerQuizz} options each, generate - index value of the correct answer. Ensure the output is a valid JSON object matching the provided schema`;
 
     const file = await aiGetFile(name);
-
     if (file instanceof Error) throw newError(file?.message, 404);
 
     const generated = await aiGenerateContent(
@@ -72,6 +71,8 @@ export const generateQuiz = async (
     const quiz =
       typeof result === 'object'
         ? {
+            id: crypto.randomUUID(),
+            document: name,
             createdAt: new Date().toISOString(),
             ...result,
           }
@@ -81,7 +82,7 @@ export const generateQuiz = async (
       throw newError('Ai failed to generate the quiz');
     }
 
-    await upsert_append_quiz(req.user?.uid ?? '', {
+    await upsertAppendQuiz(req.user?.uid ?? '', {
       createdAt: new Date().toISOString(),
       ...quiz,
     });
@@ -89,7 +90,7 @@ export const generateQuiz = async (
     return res.status(200).json(quiz);
   } catch (err) {
     if (err instanceof Error) {
-      console.error('Failed to generate quizzes: ', err.message);
+      console.error('Failed to generate quiz: ', err.message);
       next(err);
     }
     return null;

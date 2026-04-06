@@ -57,7 +57,7 @@ const setAuthSession = (access_token: string) => {
   });
 };
 
-const upsert_append_quiz = async (id: string, quiz: object) => {
+const upsertAppendQuiz = async (id: string, quiz: object) => {
   const { data, error } = await supabase.rpc('upsert_append_quiz', {
     row_id: id,
     quiz: quiz,
@@ -71,7 +71,7 @@ export {
   BUCKET,
   storageFile,
   quizzesTable,
-  upsert_append_quiz,
+  upsertAppendQuiz,
   getStoragePath,
   setAuthSession,
   storageFileExists,
