@@ -2,7 +2,7 @@ import type { TDocument } from '@/components/documents/types';
 import { apiClient } from '../api/api-client';
 
 export const getDocuments = async () => {
-  const data = await apiClient.get('/api/document/');
+  const data = await apiClient.get('/api/document');
   return data as Array<TDocument>;
 };
 
