@@ -13,3 +13,20 @@ export type TChat = {
   prompt: string;
   response: string;
 };
+
+export type TQuiz = {
+  id: string;
+  document: string;
+  questions: [
+    {
+      question: string;
+      options: string[];
+      correctAnswerIndex: number;
+      explanation: string;
+    }
+  ];
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type TQuizzes = TQuiz[];
