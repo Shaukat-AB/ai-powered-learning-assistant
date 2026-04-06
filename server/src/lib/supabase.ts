@@ -78,7 +78,7 @@ const fetchQuizzesByIdAndDocument = async (
 
   if (error) throw newError(error.message);
 
-  return data as object[];
+  return data as [] | [{ [key: string]: unknown }];
 };
 
 const deleteQuizById = async (userId: string, quizId: string) => {

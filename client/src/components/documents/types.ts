@@ -16,6 +16,7 @@ export type TChat = {
 
 export type TQuiz = {
   id: string;
+  title: string;
   document: string;
   questions: [
     {

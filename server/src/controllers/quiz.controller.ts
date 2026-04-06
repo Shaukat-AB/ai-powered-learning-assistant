@@ -15,6 +15,9 @@ import {
   upsertAppendQuiz,
 } from '../lib/supabase.js';
 
+// Used for generating unique quiz title by avoiding used titles with fetching quizzes again.
+const quizzesMap = new Map<string, [] | [{ [key: string]: unknown }]>();
+
 export const getQuizzes = async (
   req: RequestWithUser,
   res: Response,
@@ -27,6 +30,8 @@ export const getQuizzes = async (
       throw newError('Invalid document name.', 400);
     }
     const data = await fetchQuizzesByIdAndDocument(req.user?.uid ?? '', name);
+
+    if (req.user?.uid) quizzesMap.set(req.user.uid, data);
 
     return res.status(200).json(data);
   } catch (err) {
@@ -55,8 +60,13 @@ export const generateQuiz = async (
       throw newError('Invalid document name.', 400);
     }
 
+    const lastTitles = quizzesMap
+      .get(req.user?.uid ?? '')
+      ?.map((q) => q?.title ?? '')
+      .join(',');
+
     const optionsPerQuizz = 4;
-    const prompt = `Carefully review the document and generate - ${total} questions, generate - ${optionsPerQuizz} options each, generate - index value of the correct answer. Ensure the output is a valid JSON object matching the provided schema`;
+    const prompt = `Carefully review the document and generate - a unique title (not matching any from this list: ${lastTitles}) that reflects concepts or knowledge used in the generated questions, generate - ${total} questions, generate - ${optionsPerQuizz} options each, generate - index value of the correct answer. Ensure the output is a valid JSON object matching the provided schema`;
 
     const file = await aiGetFile(name);
     if (file instanceof Error) throw newError(file?.message, 404);
@@ -71,6 +81,7 @@ export const generateQuiz = async (
         responseSchema: {
           type: 'object',
           properties: {
+            title: { type: 'string' },
             questions: {
               type: 'array',
               items: {
@@ -91,7 +102,7 @@ export const generateQuiz = async (
             },
           },
 
-          required: ['questions'],
+          required: ['title', 'questions'],
         },
       }
     );

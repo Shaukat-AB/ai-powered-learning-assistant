@@ -46,11 +46,17 @@ const QuizCard = ({ quiz }: { quiz: TQuiz }) => {
         </div>
 
         <div>
-          <CardTitle className="truncate">
-            <h4>
-              Questions: {quiz.questions.length.toString().padStart(2, '0')}
-            </h4>
+          <CardTitle className="w-full min-w-0 line-clamp-1">
+            <h4>{quiz.title}</h4>
           </CardTitle>
+
+          <CardDescription>
+            <p>
+              <small>
+                Questions: {quiz.questions.length.toString().padStart(2, '0')}
+              </small>
+            </p>
+          </CardDescription>
 
           <CardDescription>
             <p>
