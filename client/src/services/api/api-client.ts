@@ -5,15 +5,18 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export type TEndpoint =
   | '/api/ai/start-chat'
   | '/api/ai/chat'
-  | '/api/document/'
+  | '/api/document'
   | '/api/document/delete'
   | '/api/document/upload'
-  | '/api/quiz/generate';
+  | '/api/quiz/generate'
+  | '/api/quiz/get';
 
 export const apiClient = {
-  get: async (endpoint: TEndpoint) => {
+  get: async (endpoint: TEndpoint, param = '') => {
     const token = await currentUser?.getIdToken();
-    const res = await fetch(BASE_URL + endpoint, {
+
+    const endpointWithParam = param ? `${endpoint}/${param}` : endpoint;
+    const res = await fetch(BASE_URL + endpointWithParam, {
       method: 'GET',
       credentials: 'include',
 
