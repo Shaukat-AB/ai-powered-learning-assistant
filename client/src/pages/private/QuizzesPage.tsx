@@ -44,7 +44,7 @@ const QuizzesPage = () => {
       ) : (
         <CardContent className="w-full flex flex-wrap items-center gap-6">
           {quizzes.map((q) => (
-            <QuizCard key={q.createdAt} quiz={q} />
+            <QuizCard key={q.id} quiz={q} />
           ))}
         </CardContent>
       )}
