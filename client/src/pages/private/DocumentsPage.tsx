@@ -14,7 +14,6 @@ const DocumentsPage = () => {
   const { id } = useParams();
 
   return !id ? (
-    // Todo: make document uploadable feature.
     <CardContent className="w-full">
       <CardHeader className="flex items-center justify-between mb-(--main-py)">
         <div>
