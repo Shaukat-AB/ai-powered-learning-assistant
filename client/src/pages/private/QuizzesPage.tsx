@@ -17,11 +17,10 @@ import { useOutletContext } from 'react-router';
 
 const QuizzesPage = () => {
   const { doc } = useOutletContext<DocumentContext>();
-
   const { data: quizzes, isLoading } = useGetQuizzes(doc?.name);
 
   return (
-    <CardContent className="w-full">
+    <CardContent className="w-full h-full">
       <CardHeader className="flex items-center justify-between mb-(--main-py)">
         <div>
           <CardTitle>

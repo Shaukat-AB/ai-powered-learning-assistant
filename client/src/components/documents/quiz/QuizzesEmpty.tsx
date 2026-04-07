@@ -10,10 +10,10 @@ import {
 
 const QuizzesEmpty = () => {
   return (
-    <Empty>
+    <Empty className="h-full">
       <EmptyHeader>
         <EmptyMedia
-          className="size-12 bg-primary-foreground text-primary"
+          className="size-12 bg-accent-foreground text-accent"
           variant="icon"
         >
           <CircleQuestionMark className="size-6" />
