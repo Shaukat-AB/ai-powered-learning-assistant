@@ -4,10 +4,12 @@ import { CardContent, CardHeader } from '@/components/ui/card';
 import { EmptyDescription, EmptyTitle } from '@/components/ui/empty';
 
 import PDFUploader from '@/components/documents/PDFUploader';
-import { useGetDocuments } from '@/hooks/document';
-import { Outlet, useParams } from 'react-router';
 import DocumentCard from '@/components/documents/DocumentCard';
 import DocumentsSkeleton from '@/components/documents/DocumentsSkeleton';
+import DocumentsEmpty from '@/components/documents/DocumentsEmpty';
+
+import { useGetDocuments } from '@/hooks/document';
+import { Outlet, useParams } from 'react-router';
 
 const DocumentsPage = () => {
   const { data: docs, isLoading } = useGetDocuments();
@@ -27,13 +29,24 @@ const DocumentsPage = () => {
 
         <PDFUploader />
       </CardHeader>
-      <CardContent className="w-full flex flex-wrap items-center gap-6">
-        {!isLoading && Array.isArray(docs) ? (
-          docs.map((doc) => <DocumentCard doc={doc} key={doc.id} />)
+
+      {!isLoading && Array.isArray(docs) ? (
+        docs.length === 0 ? (
+          <DocumentsEmpty />
         ) : (
+          <CardContent className="w-full flex flex-wrap items-center gap-6">
+            {!isLoading ? (
+              docs.map((doc) => <DocumentCard doc={doc} key={doc.id} />)
+            ) : (
+              <DocumentsSkeleton />
+            )}
+          </CardContent>
+        )
+      ) : (
+        <CardContent className="w-full flex flex-wrap items-center gap-6">
           <DocumentsSkeleton />
-        )}
-      </CardContent>
+        </CardContent>
+      )}
     </CardContent>
   ) : (
     <Outlet
