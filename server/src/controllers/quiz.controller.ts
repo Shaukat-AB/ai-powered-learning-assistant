@@ -10,7 +10,7 @@ import {
 } from '../lib/google-genai.js';
 
 import {
-  deleteQuizById,
+  deleteQuizzes,
   fetchQuizzesByIdAndDocument,
   upsertAppendQuiz,
 } from '../lib/supabase.js';
@@ -149,13 +149,13 @@ export const deleteQuiz = async (
       throw newError('Invalid quiz id.', 400);
     }
 
-    const deletedId = await deleteQuizById(req.user?.uid ?? '', id);
+    const deletedId = await deleteQuizzes(req.user?.uid ?? '', { id });
 
-    if (!deletedId) throw newError('Quiz of id was not found', 404);
+    if (!deletedId?.length) throw newError('Quiz of id was not found', 404);
 
     return res.status(200).json({
       success: true,
-      deletedId,
+      deletedId: deletedId[0],
     });
   } catch (err) {
     if (err instanceof Error) {

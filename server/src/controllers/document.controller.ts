@@ -6,6 +6,7 @@ import { config } from 'dotenv';
 import { newError } from '../lib/utils.js';
 import {
   BUCKET,
+  deleteQuizzes,
   getSignedUrl,
   getSignedUrls,
   getStoragePath,
@@ -110,13 +111,19 @@ export const deleteDocument = async (
     const { data, error } = await storageFile.remove([
       getStoragePath(name, req?.user?.uid),
     ]);
+
     if (error) {
       throw newError(error.message, error.status || 400);
     }
 
+    const deletedQuizzes = await deleteQuizzes(req.user?.uid ?? '', {
+      document: name,
+    });
+
     return res.status(200).json({
       success: true,
       document: data && { id: data[0].id, name: name },
+      deletedQuizzes: deletedQuizzes,
     });
   } catch (err) {
     if (err instanceof Error) {
