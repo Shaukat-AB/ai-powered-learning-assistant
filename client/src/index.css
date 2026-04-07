@@ -139,3 +139,15 @@
     @apply font-sans;
   }
 }
+
+/* CSS file doesn't "know" what group is, it throws an "unknown utility class" error.
+Avoid tailwind @apply for functional classes like group to fix it. */
+
+/* @apply in documend-card will detect document-card-w only if it's used with @utility */
+@utility document-card-w {
+  @apply w-full lg:max-w-xs sm:max-w-3xs;
+}
+
+.document-card {
+  @apply document-card-w hover:bg-secondary/50 hover:ring-primary/25 hover:-translate-y-0.5 duration-200 transition-all ease-out hover:shadow-sm will-change-transform;
+}

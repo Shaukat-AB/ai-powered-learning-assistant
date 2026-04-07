@@ -18,12 +18,8 @@ const DocumentCard = ({ doc }: { doc: TDocument }) => {
   const { mutate, isPending } = useDeleteDocumentMutation();
 
   return (
-    <Link
-      className="w-full lg:max-w-xs sm:max-w-3xs group"
-      key={doc?.id}
-      to={`/documents/${doc.id}`}
-    >
-      <Card className="w-full h-full">
+    <Link className="document-card-w group" to={`/documents/${doc.id}`}>
+      <Card className="h-full document-card">
         <CardHeader className="w-full space-y-6">
           <div className="w-full max-w-none flex justify-between">
             <div

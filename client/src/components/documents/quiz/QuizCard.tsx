@@ -18,7 +18,7 @@ const QuizCard = ({ quiz }: { quiz: TQuiz }) => {
   const { mutate, isPending } = useDeleteQuizMutation();
 
   return (
-    <Card className="w-full lg:max-w-xs sm:max-w-3xs group hover:ring-primary/25 hover:-translate-y-0.5 duration-200 transition-all ease-out hover:shadow-sm will-change-transform">
+    <Card className="document-card group">
       <CardHeader className="w-full space-y-6">
         <div className="w-full max-w-none flex justify-between">
           <div
