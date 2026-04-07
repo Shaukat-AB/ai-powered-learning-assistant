@@ -1,8 +1,8 @@
 import type { TDocument } from './types';
 
-import { FileText, Trash2Icon } from 'lucide-react';
+import { FileText } from 'lucide-react';
 
-import { Button, buttonVariants } from '../ui/button';
+import { buttonVariants } from '../ui/button';
 import {
   Card,
   CardContent,
@@ -11,6 +11,8 @@ import {
   CardTitle,
 } from '../ui/card';
 
+import AlertDelete from '../ui-blocks/AlertDelete';
+
 import { Link } from 'react-router';
 import { useDeleteDocumentMutation } from '@/hooks/document';
 
@@ -18,55 +20,54 @@ const DocumentCard = ({ doc }: { doc: TDocument }) => {
   const { mutate, isPending } = useDeleteDocumentMutation();
 
   return (
-    <Link className="document-card-w group" to={`/documents/${doc.id}`}>
-      <Card className="h-full document-card">
-        <CardHeader className="w-full space-y-6">
-          <div className="w-full max-w-none flex justify-between">
-            <div
-              className={`${buttonVariants({
-                variant: 'accent',
-                size: 'icon',
-              })} group-hover:text-accent group-hover:bg-accent-foreground`}
-            >
-              <FileText />
-            </div>
-            <Button
-              size={'icon'}
-              variant={'destructive'}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                mutate(doc.name);
-              }}
-              disabled={isPending}
-            >
-              <Trash2Icon />
-            </Button>
-          </div>
-          <div>
-            <CardTitle className="truncate">
-              <h4>{doc.name}</h4>
-            </CardTitle>
+    <Card className="h-full document-card group relative">
+      <Link className="absolute w-full h-full" to={`/documents/${doc.id}`}>
+        <span className="sr-only">View document</span>
+      </Link>
 
-            <CardDescription>
-              <p>
-                <small>
-                  {doc.sizeBytes
-                    ? (doc.sizeBytes / 1024).toFixed(2) + ' KB'
-                    : 'unknown'}
-                </small>
-              </p>
-            </CardDescription>
+      <CardHeader className="w-full space-y-6">
+        <div className="w-full max-w-none flex justify-between">
+          <div
+            className={`${buttonVariants({
+              variant: 'accent',
+              size: 'icon',
+            })} group-hover:text-accent group-hover:bg-accent-foreground`}
+          >
+            <FileText />
           </div>
-        </CardHeader>
 
-        <CardContent>
+          <AlertDelete
+            title="Delete document?"
+            description="This will permanently remove the selected document. This action can not be undone."
+            onDelete={() => {
+              mutate(doc.name);
+            }}
+            isPending={isPending}
+          />
+        </div>
+        <div>
+          <CardTitle className="truncate">
+            <h4>{doc.name}</h4>
+          </CardTitle>
+
           <CardDescription>
-            <p>0 quizzes</p>
+            <p>
+              <small>
+                {doc.sizeBytes
+                  ? (doc.sizeBytes / 1024).toFixed(2) + ' KB'
+                  : 'unknown'}
+              </small>
+            </p>
           </CardDescription>
-        </CardContent>
-      </Card>
-    </Link>
+        </div>
+      </CardHeader>
+
+      <CardContent>
+        <CardDescription>
+          <p>0 quizzes</p>
+        </CardDescription>
+      </CardContent>
+    </Card>
   );
 };
 

@@ -1,6 +1,6 @@
 import type { TQuiz } from '../types';
 
-import { List, PlayIcon, Trash2Icon } from 'lucide-react';
+import { List, PlayIcon } from 'lucide-react';
 
 import {
   Card,
@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button, buttonVariants } from '@/components/ui/button';
+import AlertDelete from '@/components/ui-blocks/AlertDelete';
 
 import { Link } from 'react-router';
 import { useDeleteQuizMutation } from '@/hooks/quiz';
@@ -30,19 +31,14 @@ const QuizCard = ({ quiz }: { quiz: TQuiz }) => {
             <List />
           </div>
 
-          <Button
-            size={'icon'}
-            className="not-group-hover:bg-accent not-group-hover:text-accent-foreground"
-            variant={'destructive'}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
+          <AlertDelete
+            title="Delete quiz?"
+            description="This will permanently remove the selected quiz. This action can not be undone."
+            onDelete={() => {
               mutate(quiz.id);
             }}
-            disabled={isPending}
-          >
-            <Trash2Icon />
-          </Button>
+            isPending={isPending}
+          />
         </div>
 
         <div>
