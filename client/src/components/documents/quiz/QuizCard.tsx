@@ -1,6 +1,6 @@
 import type { TQuiz } from '../types';
 
-import { List, PlayIcon } from 'lucide-react';
+import { List, ListCheck, PlayIcon } from 'lucide-react';
 
 import {
   Card,
@@ -67,12 +67,21 @@ const QuizCard = ({ quiz }: { quiz: TQuiz }) => {
       </CardHeader>
 
       <CardContent>
-        <Button className="w-full" size={'lg'} variant={'accent-alt'} asChild>
-          <Link to={`/quiz/${quiz.id}`}>
-            <PlayIcon />
-            Take Quiz
-          </Link>
-        </Button>
+        {!quiz?.result ? (
+          <Button className="w-full" size={'lg'} variant={'accent-alt'} asChild>
+            <Link to={`/quiz/${quiz.id}`}>
+              <PlayIcon />
+              Take Quiz
+            </Link>
+          </Button>
+        ) : (
+          <Button className="w-full" size={'lg'} variant={'secondary'} asChild>
+            <Link to={`/quiz-result/${quiz.id}`}>
+              <ListCheck />
+              Check Result
+            </Link>
+          </Button>
+        )}
       </CardContent>
     </Card>
   );
