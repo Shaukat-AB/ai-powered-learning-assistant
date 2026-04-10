@@ -1,6 +1,5 @@
 import { Link } from 'react-router';
 
-import { Button } from '@/components/ui/button';
 import {
   Empty,
   EmptyContent,
@@ -9,7 +8,7 @@ import {
   EmptyTitle,
 } from '@/components/ui/empty';
 
-import { ArrowRight } from 'lucide-react';
+import ButtonWithArrow from '@/components/ui-blocks/ButtonWithArrow';
 
 const NotFoundPage = () => {
   return (
@@ -22,12 +21,11 @@ const NotFoundPage = () => {
       </EmptyHeader>
 
       <EmptyContent>
-        <Button className="text-md" size={'lg'} asChild>
-          <Link to="/">
+        <Link to="/" className="w-full max-w-xs">
+          <ButtonWithArrow className="w-full" size={'lg'} asChild>
             Back to home page
-            <ArrowRight />
-          </Link>
-        </Button>
+          </ButtonWithArrow>
+        </Link>
       </EmptyContent>
     </Empty>
   );

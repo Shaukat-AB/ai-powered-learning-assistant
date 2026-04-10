@@ -1,8 +1,6 @@
-import { Link } from 'react-router';
 import type { FallbackProps } from 'react-error-boundary';
+import { RefreshCcwIcon } from 'lucide-react';
 
-import { ArrowRight, RefreshCcwIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import {
   Empty,
   EmptyContent,
@@ -10,6 +8,10 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from '@/components/ui/empty';
+import { Button } from '@/components/ui/button';
+import ButtonWithArrow from '@/components/ui-blocks/ButtonWithArrow';
+
+import { Link } from 'react-router';
 
 export const ErrorPage = ({ error, resetErrorBoundary }: FallbackProps) => {
   return (
@@ -25,20 +27,20 @@ export const ErrorPage = ({ error, resetErrorBoundary }: FallbackProps) => {
 
       <EmptyContent className="flex-row justify-center gap-2">
         <Button
-          className="text-md"
+          className="px-4 group"
           size={'lg'}
           variant={'accent-alt'}
           onClick={resetErrorBoundary}
         >
-          <RefreshCcwIcon />
+          <RefreshCcwIcon className="transition-transform duration-200 group-hover:-rotate-60" />
           Retry
         </Button>
-        <Button className="text-md" size={'lg'} asChild>
-          <Link to="/" reloadDocument>
+
+        <Link to="/" reloadDocument>
+          <ButtonWithArrow className="px-4" size={'lg'} asChild>
             Back to home page
-            <ArrowRight />
-          </Link>
-        </Button>
+          </ButtonWithArrow>
+        </Link>
       </EmptyContent>
     </Empty>
   );
