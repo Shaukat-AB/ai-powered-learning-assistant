@@ -1,5 +1,6 @@
-import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -10,10 +11,12 @@ import {
 import { RadioGroup } from '@/components/ui/radio-group';
 import { Progress } from '@/components/ui/progress';
 import LabelRadioItem from '@/components/ui-blocks/LabelRadioItem';
+import { Spinner } from '@/components/ui/spinner';
 
 import { useQuizzesContext } from '@/context/QuizzesContext';
 import { Activity, useEffect, useRef, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router';
+import { useUpdateQuizResultMutation } from '@/hooks/quiz';
 
 type TQuizData = {
   [key: string]: {
@@ -24,6 +27,8 @@ type TQuizData = {
 };
 
 const TakeQuizPage = () => {
+  const { mutateAsync, isPending } = useUpdateQuizResultMutation();
+
   const { id } = useParams();
   const { getQuizById, updateQuiz } = useQuizzesContext();
   const navigate = useNavigate();
@@ -35,7 +40,7 @@ const TakeQuizPage = () => {
   const quiz = getQuizById(id);
   const currentQuestion = quiz?.questions[currentQIndex];
 
-  const handleSubmit = (e: React.SubmitEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     if (!quiz?.questions) return;
 
@@ -62,17 +67,27 @@ const TakeQuizPage = () => {
         (value, i) => value === checkedIndexes[i]
       );
 
-    !sameResult &&
-      updateQuiz({
-        ...quiz,
-        result: {
-          checkedIndexes,
-          score,
-          secondsTaken,
-          checkedRight,
-          checkedWrong,
-        },
-      });
+    if (sameResult) {
+      toast.error(
+        'Failed to Submit! Your result is same as your previous result.'
+      );
+      return;
+    }
+
+    const result = {
+      checkedIndexes,
+      score,
+      secondsTaken,
+      checkedRight,
+      checkedWrong,
+    };
+
+    updateQuiz({
+      ...quiz,
+      result,
+    });
+
+    await mutateAsync({ quizId: quiz.id, result });
 
     navigate(`/quiz-result/${id}`);
   };
@@ -141,7 +156,7 @@ const TakeQuizPage = () => {
             className="mr-auto px-4"
             size={'lg'}
             onClick={() => setCurrentQIndex(currentQIndex - 1)}
-            disabled={currentQIndex < 1}
+            disabled={currentQIndex < 1 || isPending}
           >
             Previous
           </Button>
@@ -176,8 +191,10 @@ const TakeQuizPage = () => {
               className="px-4"
               variant={'default'}
               size={'lg'}
+              disabled={isPending}
             >
               Submit
+              {isPending && <Spinner />}
             </Button>
           </Activity>
         </CardContent>

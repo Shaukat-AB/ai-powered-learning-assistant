@@ -10,6 +10,7 @@ export type TEndpoint =
   | '/api/document/upload'
   | '/api/quiz/generate'
   | '/api/quiz/get'
+  | '/api/quiz/update'
   | '/api/quiz/delete';
 
 export const apiClient = {

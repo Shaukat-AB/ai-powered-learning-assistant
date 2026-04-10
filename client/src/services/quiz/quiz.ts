@@ -1,4 +1,8 @@
-import type { TQuizzes } from '@/components/documents/types';
+import type {
+  TQuiz,
+  TQuizResult,
+  TQuizzes,
+} from '@/components/documents/types';
 
 import { apiClient } from '../api/api-client';
 
@@ -13,4 +17,13 @@ export const getQuizzes = async (name: string) => {
 
 export const deleteQuiz = async (id: string) => {
   return await apiClient.delete('/api/quiz/delete', { id });
+};
+
+export const updateQuizResult = async (quizId: string, result: TQuizResult) => {
+  return await apiClient.post('/api/quiz/update', {
+    quiz: {
+      id: quizId,
+      result: result,
+    } satisfies Partial<TQuiz>,
+  });
 };

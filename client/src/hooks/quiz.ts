@@ -1,6 +1,13 @@
-import { toast } from 'sonner';
+import type { TQuizResult } from '@/components/documents/types';
 
-import { deleteQuiz, generateQuiz, getQuizzes } from '@/services/quiz/quiz';
+import { toast } from 'sonner';
+import {
+  deleteQuiz,
+  generateQuiz,
+  getQuizzes,
+  updateQuizResult,
+} from '@/services/quiz/quiz';
+
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/react-query';
 import { useQuizzesContext } from '@/context/QuizzesContext';
@@ -9,6 +16,7 @@ import { useLocation } from 'react-router';
 const queryQuizzesKey = 'quizzes';
 const genQuizKey = ['generate-quiz'];
 const deleteQuizKey = ['delete-quiz'];
+const updateQuizResultKey = ['update-quiz'];
 
 export const useGetQuizzes = (name: string | undefined) => {
   const { setQuizzes, setGoBackPath } = useQuizzesContext();
@@ -68,6 +76,41 @@ export const useDeleteQuizMutation = () => {
     onSuccess: (_data) =>
       queryClient.invalidateQueries({
         queryKey: [queryQuizzesKey],
+      }),
+  });
+};
+
+export const useUpdateQuizResultMutation = () => {
+  return useMutation({
+    mutationFn: async ({
+      quizId,
+      result,
+    }: {
+      quizId: string;
+      result: TQuizResult;
+    }) => {
+      try {
+        const data = await updateQuizResult(quizId, result);
+
+        if (data?.success) {
+          toast.success('Result successfully submitted.');
+        } else if (data?.message && !data?.success) {
+          toast.error(data.message);
+        }
+
+        return data;
+      } catch (error) {
+        toast.error('Failed to update quiz result');
+        console.error('Failed to update quiz result: ', error);
+      }
+    },
+
+    mutationKey: updateQuizResultKey,
+
+    onSuccess: (_data) =>
+      queryClient.invalidateQueries({
+        queryKey: [queryQuizzesKey],
+        refetchType: 'all',
       }),
   });
 };

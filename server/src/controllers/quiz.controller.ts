@@ -12,6 +12,7 @@ import {
 import {
   deleteQuizzes,
   fetchQuizzesByIdAndDocument,
+  updateQuizById,
   upsertAppendQuiz,
 } from '../lib/supabase.js';
 
@@ -160,6 +161,36 @@ export const deleteQuiz = async (
   } catch (err) {
     if (err instanceof Error) {
       console.error('Failed to get quizzes: ', err.message);
+      next(err);
+    }
+
+    return;
+  }
+};
+
+export const updateQuiz = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { quiz } = req.body;
+
+    if (!quiz || !quiz?.id) {
+      throw newError('Invalid quiz request.', 400);
+    }
+
+    await updateQuizById(req.user?.uid ?? '', {
+      ...quiz,
+      updateAt: new Date().toISOString(),
+    });
+
+    return res.status(200).json({
+      success: true,
+    });
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error('Failed to update quiz: ', err.message);
       next(err);
     }
 

@@ -81,7 +81,7 @@ const fetchQuizzesByIdAndDocument = async (
   return data as [] | [{ [key: string]: unknown }];
 };
 
-const deleteQuizzes = async (userId: string, removable = {}) => {
+const deleteQuizzes = async (userId: string, removable: unknown) => {
   const { data, error } = await supabase.rpc('delete_quizzes', {
     row_id: userId,
     removable: removable,
@@ -92,6 +92,17 @@ const deleteQuizzes = async (userId: string, removable = {}) => {
   return data as string[];
 };
 
+const updateQuizById = async (userId: string, quiz: unknown) => {
+  const { data, error } = await supabase.rpc('update_quiz', {
+    row_id: userId,
+    quiz: quiz,
+  });
+
+  if (error) throw newError(error.message);
+
+  return data;
+};
+
 export {
   BUCKET,
   storageFile,
@@ -99,6 +110,7 @@ export {
   upsertAppendQuiz,
   fetchQuizzesByIdAndDocument,
   deleteQuizzes,
+  updateQuizById,
   getStoragePath,
   setAuthSession,
   storageFileExists,
