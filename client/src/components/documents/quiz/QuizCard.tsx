@@ -68,7 +68,7 @@ const QuizCard = ({ quiz }: { quiz: TQuiz }) => {
 
       <CardContent>
         <Button className="w-full" size={'lg'} variant={'accent-alt'} asChild>
-          <Link to={'/'}>
+          <Link to={`/quiz/${quiz.id}`}>
             <PlayIcon />
             Take Quiz
           </Link>

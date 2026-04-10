@@ -26,6 +26,15 @@ export type TQuiz = {
       explanation: string;
     }
   ];
+
+  result?: {
+    checkedIndexes: number[];
+    secondsTaken: number;
+    score: number;
+    checkedRight: number;
+    checkedWrong: number;
+  };
+
   createdAt?: string;
   updatedAt?: string;
 };

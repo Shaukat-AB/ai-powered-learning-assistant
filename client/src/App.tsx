@@ -11,6 +11,8 @@ import DocumentTabsPage from '@/pages/private/DoumentTabsPage';
 import DocumentPreviewPage from './pages/private/DocumentPreviewPage';
 import ChatPage from './pages/private/ChatPage';
 import QuizzesPage from './pages/private/QuizzesPage';
+import TakeQuizPage from './pages/private/TakeQuizPage';
+import QuizResultsPage from './pages/private/QuizResultsPage';
 import ErrorPage from './pages/error/ErrorPage';
 import NotFoundPage from './pages/error/NotFoundPage';
 
@@ -19,6 +21,7 @@ import { logError } from './lib/utils';
 
 import { Toaster } from './components/ui/sonner';
 import { ThemeProvider } from 'next-themes';
+import { QuizzesProvider } from './context/QuizzesContext';
 import { ErrorBoundary } from 'react-error-boundary';
 import { AuthProvider } from './context/AuthContext';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -38,32 +41,40 @@ function App() {
           <AuthProvider>
             <AppLayout>
               <ErrorBoundary FallbackComponent={ErrorPage} onError={logError}>
-                <Routes>
-                  {/* Public Routes*/}
-                  <Route element={<PublicRoute />}>
-                    <Route path="/" element={<WelcomePage />} />
-                  </Route>
-
-                  {/* Protected Routes*/}
-                  <Route element={<ProtectedRoute />}>
-                    <Route path="/dashboard" element={<DashboardPage />} />
-
-                    <Route path="/documents/" element={<DocumentsPage />}>
-                      <Route path=":id" element={<DocumentTabsPage />}>
-                        <Route
-                          path="preview"
-                          element={<DocumentPreviewPage />}
-                        />
-
-                        <Route path="chat" element={<ChatPage />} />
-                        <Route path="quizzes" element={<QuizzesPage />} />
-                      </Route>
+                <QuizzesProvider>
+                  <Routes>
+                    {/* Public Routes*/}
+                    <Route element={<PublicRoute />}>
+                      <Route path="/" element={<WelcomePage />} />
                     </Route>
-                  </Route>
 
-                  {/* Others */}
-                  <Route path="*" element={<NotFoundPage />} />
-                </Routes>
+                    {/* Protected Routes*/}
+                    <Route element={<ProtectedRoute />}>
+                      <Route path="/dashboard" element={<DashboardPage />} />
+
+                      <Route path="/documents/" element={<DocumentsPage />}>
+                        <Route path=":id" element={<DocumentTabsPage />}>
+                          <Route
+                            path="preview"
+                            element={<DocumentPreviewPage />}
+                          />
+
+                          <Route path="chat" element={<ChatPage />} />
+                          <Route path="quizzes" element={<QuizzesPage />} />
+                        </Route>
+                      </Route>
+
+                      <Route path="quiz/:id/" element={<TakeQuizPage />} />
+                      <Route
+                        path="/quiz-result/:id"
+                        element={<QuizResultsPage />}
+                      />
+                    </Route>
+
+                    {/* Others */}
+                    <Route path="*" element={<NotFoundPage />} />
+                  </Routes>
+                </QuizzesProvider>
               </ErrorBoundary>
             </AppLayout>
           </AuthProvider>

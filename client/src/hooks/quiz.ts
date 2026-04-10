@@ -3,18 +3,27 @@ import { toast } from 'sonner';
 import { deleteQuiz, generateQuiz, getQuizzes } from '@/services/quiz/quiz';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/react-query';
+import { useQuizzesContext } from '@/context/QuizzesContext';
+import { useLocation } from 'react-router';
 
 const queryQuizzesKey = 'quizzes';
 const genQuizKey = ['generate-quiz'];
 const deleteQuizKey = ['delete-quiz'];
 
 export const useGetQuizzes = (name: string | undefined) => {
+  const { setQuizzes, setGoBackPath } = useQuizzesContext();
+  const { pathname } = useLocation();
+
   return useQuery({
     queryFn: async () => {
       try {
         if (!name) return null;
 
-        return await getQuizzes(name);
+        const quizzes = await getQuizzes(name);
+        setQuizzes(quizzes);
+        setGoBackPath(pathname);
+
+        return quizzes;
       } catch (error) {
         toast.error('Failed to get quizzes');
         console.error('Failed to get quizzes: ', error);
