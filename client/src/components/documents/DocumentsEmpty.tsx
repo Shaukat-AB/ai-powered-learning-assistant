@@ -20,7 +20,7 @@ const DocumentsEmpty = () => {
         </EmptyMedia>
 
         <EmptyTitle className="text-lg">No Document Was Uploaded</EmptyTitle>
-        <EmptyDescription className="flex items-center justify-center gap-2">
+        <EmptyDescription>
           Upload new document to start learning.
         </EmptyDescription>
       </EmptyHeader>

@@ -20,7 +20,7 @@ const QuizzesEmpty = () => {
         </EmptyMedia>
 
         <EmptyTitle className="text-lg">No Quiz Was Generated</EmptyTitle>
-        <EmptyDescription className="flex items-center justify-center gap-2">
+        <EmptyDescription>
           Generate new quiz to start taking quizzes.
         </EmptyDescription>
       </EmptyHeader>
