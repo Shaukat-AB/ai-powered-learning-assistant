@@ -14,6 +14,14 @@ export type TChat = {
   response: string;
 };
 
+export type TQuizResult = {
+  checkedIndexes: number[];
+  secondsTaken: number;
+  score: number;
+  checkedRight: number;
+  checkedWrong: number;
+};
+
 export type TQuiz = {
   id: string;
   title: string;
@@ -27,13 +35,7 @@ export type TQuiz = {
     }
   ];
 
-  result?: {
-    checkedIndexes: number[];
-    secondsTaken: number;
-    score: number;
-    checkedRight: number;
-    checkedWrong: number;
-  };
+  result?: TQuizResult;
 
   createdAt?: string;
   updatedAt?: string;
