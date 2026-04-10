@@ -81,7 +81,7 @@ const QuizResultsPage = () => {
                   <CircleX className="w-4" />
                   Wrong Answers
                 </strong>
-                <span>{result.checkedRight + result.checkedWrong}</span>
+                <span>{result.checkedWrong}</span>
               </p>
 
               <p className="flex justify-between">
