@@ -32,7 +32,7 @@ export const ChatResponse = ({
             <Markdown text={text} />
           ) : !error ? (
             <CardDescription className="text-accent-foreground flex items-center gap-2">
-              <p>thinking</p>
+              <p>Thinking</p>
               <LoadingDots />
             </CardDescription>
           ) : (
