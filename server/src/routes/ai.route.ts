@@ -1,9 +1,10 @@
 import express from 'express';
-import { startChat, chat } from '../controllers/ai.controller.js';
+
+import { aiFileContext } from '../middleware/ai.middleware.js';
+import { chat } from '../controllers/ai.controller.js';
 
 const router = express.Router();
 
-router.post('/start-chat', startChat);
-router.post('/chat', chat);
+router.post('/chat', aiFileContext, chat);
 
 export default router;

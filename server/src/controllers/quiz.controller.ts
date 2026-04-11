@@ -1,10 +1,9 @@
-import type { RequestWithUser } from '../lib/types.js';
+import type { RequestUserAndAiFile, RequestWithUser } from '../lib/types.js';
 import type { Response, NextFunction } from 'express';
 
 import { isDocumentNameValid, newError } from '../lib/utils.js';
 import {
   aiGenerateContent,
-  aiGetFile,
   aiQuizzInstruction,
   createFileContent,
 } from '../lib/google-genai.js';
@@ -46,7 +45,7 @@ export const getQuizzes = async (
 };
 
 export const generateQuiz = async (
-  req: RequestWithUser,
+  req: RequestUserAndAiFile,
   res: Response,
   next: NextFunction
 ) => {
@@ -57,10 +56,6 @@ export const generateQuiz = async (
       throw newError('Invalid total amount.', 400);
     }
 
-    if (typeof name !== 'string' || !isDocumentNameValid(name)) {
-      throw newError('Invalid document name.', 400);
-    }
-
     const lastTitles = quizzesMap
       .get(req.user?.uid ?? '')
       ?.map((q) => q?.title ?? '')
@@ -69,8 +64,8 @@ export const generateQuiz = async (
     const optionsPerQuizz = 4;
     const prompt = `Carefully review the document and generate - a unique title (not matching any from this list: ${lastTitles}) that reflects concepts or knowledge used in the generated questions, generate - ${total} questions, generate - ${optionsPerQuizz} options each, generate - index value of the correct answer. Ensure the output is a valid JSON object matching the provided schema`;
 
-    const file = await aiGetFile(name);
-    if (file instanceof Error) throw newError(file?.message, 404);
+    const file = req.aiFile;
+    if (!file) throw newError('AI context file was not found', 404);
 
     const generated = await aiGenerateContent(
       [prompt, createFileContent(file)],
