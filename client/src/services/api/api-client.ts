@@ -3,7 +3,6 @@ import { currentUser } from '@/lib/firebase';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export type TEndpoint =
-  | '/api/ai/start-chat'
   | '/api/ai/chat'
   | '/api/document'
   | '/api/document/delete'

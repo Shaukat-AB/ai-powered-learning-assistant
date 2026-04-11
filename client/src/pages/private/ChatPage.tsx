@@ -7,17 +7,14 @@ import ChatTextArea from '@/components/documents/chat/ChatTextArea';
 import { ChatPrompt, ChatResponse } from '@/components/documents/chat/chat-box';
 
 import useScrollToEnd from '@/hooks/useScrollToEnd';
-import { useChatMutation, useStartChatMutation } from '@/hooks/ai';
+import { useChatMutation } from '@/hooks/ai';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useOutletContext } from 'react-router';
 
 const ChatPage = () => {
   const { doc } = useOutletContext<DocumentContext>();
 
-  const { mutate: startChat, isPending: isStarting } = useStartChatMutation(
-    doc?.name
-  );
   const { mutateAsync, isPending, error } = useChatMutation(doc?.name);
 
   const [chats, setChats] = useState<TChat[]>([]);
@@ -35,14 +32,6 @@ const ChatPage = () => {
     }
   };
 
-  useEffect(() => {
-    return () => {
-      if (doc && doc.url) {
-        startChat();
-      }
-    };
-  }, [doc?.id]);
-
   return (
     <CardContent className="relative w-full h-(--tab-page-h) max-h-(--tab-page-h) pb-16">
       <Card
@@ -50,7 +39,7 @@ const ChatPage = () => {
         className="w-full h-full py-0 flex items-center justify-end-safe overflow-y-auto"
       >
         {chats.length == 0 ? (
-          <ChatEmpty isLoading={isStarting} />
+          <ChatEmpty />
         ) : (
           chats.map((chat, i) => (
             <CardContent
@@ -71,10 +60,7 @@ const ChatPage = () => {
       <Card className="ring-0 p-0 w-full h-0">
         <CardFooter className="bg-transparent py-0 w-full flex absolute bottom-0 left-0 border-0">
           <CardContent className="w-full bg-background py-2">
-            <ChatTextArea
-              onSubmit={handlePromptSubmit}
-              isLoading={isPending || isStarting}
-            />
+            <ChatTextArea onSubmit={handlePromptSubmit} isLoading={isPending} />
           </CardContent>
         </CardFooter>
       </Card>

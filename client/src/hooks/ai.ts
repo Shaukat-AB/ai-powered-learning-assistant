@@ -1,10 +1,9 @@
-import { chat, startChat } from '@/services/ai/gen-ai';
-
 import { toast } from 'sonner';
+
+import { chat } from '@/services/ai/gen-ai';
 import { useMutation } from '@tanstack/react-query';
 
-const AIStartChatKey = 'ai-start-chat';
-const AIChatKey = 'ai-chat';
+const aiChatKey = 'ai-chat';
 
 export const useChatMutation = (name: string | undefined) => {
   return useMutation({
@@ -22,31 +21,7 @@ export const useChatMutation = (name: string | undefined) => {
         console.error('Chat Mutation:', error);
       }
     },
-    mutationKey: [AIChatKey, name],
-    retry: 3,
-  });
-};
-
-export const useStartChatMutation = (name: string | undefined) => {
-  return useMutation({
-    mutationFn: async () => {
-      if (!name) return;
-
-      try {
-        const res = await startChat({ name: name });
-
-        if ('message' in res && !res?.success) {
-          toast.error(res.message);
-          return null;
-        }
-
-        return res;
-      } catch (error) {
-        toast.error('AI Failed to respond!');
-        console.error('Start Chat Mutation:', error);
-      }
-    },
-    mutationKey: [AIStartChatKey, name],
+    mutationKey: [aiChatKey, name],
     retry: 3,
   });
 };
