@@ -5,6 +5,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const strPadZeros = (number: number, max = 2) =>
+  number.toString().padStart(max, '0');
+
 //Logs error caught by Error boundary
 export function logError(error: unknown, info: React.ErrorInfo) {
   console.error('Error: ', error, '\ncomponentStack: ', info.componentStack);

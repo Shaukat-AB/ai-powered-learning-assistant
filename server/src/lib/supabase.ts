@@ -57,6 +57,17 @@ const setAuthSession = (access_token: string) => {
   });
 };
 
+const getQuizzes = async (id: string) => {
+  const { data, error } = await quizzesTable
+    .select('quizzes')
+    .eq('id', id)
+    .limit(1);
+
+  if (error) throw newError(error.message);
+
+  return data[0]?.quizzes as undefined | [unknown];
+};
+
 const upsertAppendQuiz = async (id: string, quiz: object) => {
   const { data, error } = await supabase.rpc('upsert_append_quiz', {
     row_id: id,
@@ -107,6 +118,7 @@ export {
   BUCKET,
   storageFile,
   quizzesTable,
+  getQuizzes,
   upsertAppendQuiz,
   fetchQuizzesByIdAndDocument,
   deleteQuizzes,

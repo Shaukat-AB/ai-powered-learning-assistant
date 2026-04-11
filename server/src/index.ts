@@ -3,6 +3,7 @@ import cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
 import express from 'express';
 
+import dashboardRoutes from './routes/dashboard.route.js';
 import aiRoutes from './routes/ai.route.js';
 import documentRoutes from './routes/document.route.js';
 import quizRoutes from './routes/quiz.route.js';
@@ -29,6 +30,7 @@ app.use(
 );
 
 // Routes
+app.use('/api/dashboard', authorize, dashboardRoutes);
 app.use('/api/ai', authorize, aiRoutes);
 app.use('/api/document', authorize, documentRoutes);
 app.use('/api/quiz', authorize, quizRoutes);
