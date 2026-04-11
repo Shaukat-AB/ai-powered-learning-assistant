@@ -16,9 +16,9 @@ import { useQuizzesContext } from '@/context/QuizzesContext';
 import { useLocation } from 'react-router';
 
 const queryQuizzesKey = 'quizzes';
-const genQuizKey = ['generate-quiz'];
-const deleteQuizKey = ['delete-quiz'];
-const updateQuizResultKey = ['update-quiz'];
+const genQuizKey = 'generate-quiz';
+const deleteQuizKey = 'delete-quiz';
+const updateQuizResultKey = 'update-quiz';
 
 export const useGetQuizzes = (name: string | undefined) => {
   const { setQuizzes, setGoBackPath } = useQuizzesContext();
@@ -32,11 +32,6 @@ export const useGetQuizzes = (name: string | undefined) => {
         const quizzes = await getQuizzes(name);
         setQuizzes(quizzes);
         setGoBackPath(pathname);
-
-        await queryClient.invalidateQueries({
-          queryKey: queryDoumentsKey,
-          refetchType: 'all',
-        });
 
         return quizzes;
       } catch (error) {
@@ -60,10 +55,12 @@ export const useGenerateQuizMutation = () => {
       }
     },
 
-    mutationKey: genQuizKey,
-    onSuccess: (_data) =>
-      queryClient.invalidateQueries({
-        queryKey: [queryQuizzesKey],
+    mutationKey: [genQuizKey],
+    onSuccess: async (_data) =>
+      await queryClient.invalidateQueries({
+        predicate: ({ queryKey }) =>
+          queryKey[0] === queryQuizzesKey || queryKey[0] === queryDoumentsKey,
+        refetchType: 'all',
       }),
   });
 };
@@ -79,10 +76,12 @@ export const useDeleteQuizMutation = () => {
       }
     },
 
-    mutationKey: deleteQuizKey,
-    onSuccess: (_data) =>
-      queryClient.invalidateQueries({
-        queryKey: [queryQuizzesKey],
+    mutationKey: [deleteQuizKey],
+    onSuccess: async (_data) =>
+      await queryClient.invalidateQueries({
+        predicate: ({ queryKey }) =>
+          queryKey[0] === queryQuizzesKey || queryKey[0] === queryDoumentsKey,
+        refetchType: 'all',
       }),
   });
 };
@@ -112,7 +111,7 @@ export const useUpdateQuizResultMutation = () => {
       }
     },
 
-    mutationKey: updateQuizResultKey,
+    mutationKey: [updateQuizResultKey],
 
     onSuccess: (_data) =>
       queryClient.invalidateQueries({

@@ -8,9 +8,9 @@ import {
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/react-query';
 
-export const queryDoumentsKey = ['documents'];
-const uploadDoumentKey = ['upload-document'];
-const deleteDocumentKey = ['delete-document'];
+export const queryDoumentsKey = 'documents';
+const uploadDoumentKey = 'upload-document';
+const deleteDocumentKey = 'delete-document';
 
 export const useGetDocuments = () => {
   return useQuery({
@@ -23,7 +23,7 @@ export const useGetDocuments = () => {
       }
       return null;
     },
-    queryKey: queryDoumentsKey,
+    queryKey: [queryDoumentsKey],
   });
 };
 
@@ -38,10 +38,10 @@ export const useUploadDocumentMutation = () => {
       }
     },
 
-    mutationKey: uploadDoumentKey,
+    mutationKey: [uploadDoumentKey],
     onSuccess: (_data) =>
       queryClient.invalidateQueries({
-        queryKey: queryDoumentsKey,
+        queryKey: [queryDoumentsKey],
       }),
   });
 };
@@ -57,10 +57,10 @@ export const useDeleteDocumentMutation = () => {
       }
     },
 
-    mutationKey: deleteDocumentKey,
+    mutationKey: [deleteDocumentKey],
     onSuccess: (_data) =>
       queryClient.invalidateQueries({
-        queryKey: queryDoumentsKey,
+        queryKey: [queryDoumentsKey],
       }),
   });
 };
