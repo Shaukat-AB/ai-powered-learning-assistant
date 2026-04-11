@@ -2,6 +2,7 @@ export type TDocument = {
   id: string;
   name: string;
   url: string;
+  totalQuizzes: number;
   sizeBytes: number | undefined;
   createdAt: string | null;
   updatedAt: string | null;

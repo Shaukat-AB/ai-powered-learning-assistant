@@ -15,6 +15,7 @@ import AlertDelete from '../ui-blocks/AlertDelete';
 
 import { Link } from 'react-router';
 import { useDeleteDocumentMutation } from '@/hooks/document';
+import { strPadZeros } from '@/lib/utils';
 
 const DocumentCard = ({ doc }: { doc: TDocument }) => {
   const { mutate, isPending } = useDeleteDocumentMutation();
@@ -63,9 +64,11 @@ const DocumentCard = ({ doc }: { doc: TDocument }) => {
       </CardHeader>
 
       <CardContent>
-        <CardDescription>
-          <p>0 quizzes</p>
-        </CardDescription>
+        <Card className="w-fit px-4 py-2">
+          <CardDescription>
+            <p>{strPadZeros(doc.totalQuizzes)} quizzes</p>
+          </CardDescription>
+        </Card>
       </CardContent>
     </Card>
   );

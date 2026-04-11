@@ -8,6 +8,8 @@ import {
   updateQuizResult,
 } from '@/services/quiz/quiz';
 
+import { queryDoumentsKey } from './document';
+
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/react-query';
 import { useQuizzesContext } from '@/context/QuizzesContext';
@@ -30,6 +32,11 @@ export const useGetQuizzes = (name: string | undefined) => {
         const quizzes = await getQuizzes(name);
         setQuizzes(quizzes);
         setGoBackPath(pathname);
+
+        await queryClient.invalidateQueries({
+          queryKey: queryDoumentsKey,
+          refetchType: 'all',
+        });
 
         return quizzes;
       } catch (error) {

@@ -8,7 +8,7 @@ import {
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/react-query';
 
-const queryDoumentsKey = ['documents'];
+export const queryDoumentsKey = ['documents'];
 const uploadDoumentKey = ['upload-document'];
 const deleteDocumentKey = ['delete-document'];
 

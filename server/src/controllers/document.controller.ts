@@ -7,6 +7,7 @@ import { newError } from '../lib/utils.js';
 import {
   BUCKET,
   deleteQuizzes,
+  getQuizzes,
   getSignedUrl,
   getSignedUrls,
   getStoragePath,
@@ -35,12 +36,28 @@ export const getDocuments = async (
         )
       : [];
 
+    const quizzes = await getQuizzes(req?.user?.uid ?? '');
+
+    const totalQuizzes =
+      (quizzes?.length &&
+        data.map((doc) => {
+          return quizzes.reduce(
+            (count, q) =>
+              (q as { document: string }).document === doc.name.split('.')[0]
+                ? ((count as number) += 1)
+                : count,
+            0
+          );
+        })) ||
+      Array.from({ length: data.length }).fill(0, 0, data.length);
+
     return res.status(200).json(
       data?.map((doc, i) => ({
         id: doc.id,
         name: doc.name.split('.')[0],
         url: signedUrls[i],
         sizeBytes: doc.metadata?.size,
+        totalQuizzes: totalQuizzes[i],
         createdAt: doc.created_at,
         updatedAt: doc.updated_at,
       }))
