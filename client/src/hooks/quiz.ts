@@ -9,6 +9,7 @@ import {
 } from '@/services/quiz/quiz';
 
 import { queryDoumentsKey } from './document';
+import { queryDashboardKey } from './dashboard';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/react-query';
@@ -59,7 +60,9 @@ export const useGenerateQuizMutation = () => {
     onSuccess: async (_data) =>
       await queryClient.invalidateQueries({
         predicate: ({ queryKey }) =>
-          queryKey[0] === queryQuizzesKey || queryKey[0] === queryDoumentsKey,
+          queryKey[0] === queryQuizzesKey ||
+          queryKey[0] === queryDoumentsKey ||
+          queryKey[0] === queryDashboardKey,
         refetchType: 'all',
       }),
   });
@@ -80,7 +83,9 @@ export const useDeleteQuizMutation = () => {
     onSuccess: async (_data) =>
       await queryClient.invalidateQueries({
         predicate: ({ queryKey }) =>
-          queryKey[0] === queryQuizzesKey || queryKey[0] === queryDoumentsKey,
+          queryKey[0] === queryQuizzesKey ||
+          queryKey[0] === queryDoumentsKey ||
+          queryKey[0] === queryDashboardKey,
         refetchType: 'all',
       }),
   });

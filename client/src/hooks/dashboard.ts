@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 import { getDashboradData } from '@/services/dashboard/dashboard';
 import { useQuery } from '@tanstack/react-query';
 
-const queryDashboardKey = ['dashboard'];
+export const queryDashboardKey = 'dashboard';
 
 export const useGetDashboardData = () => {
   return useQuery({
@@ -22,6 +22,6 @@ export const useGetDashboardData = () => {
       }
       return null;
     },
-    queryKey: queryDashboardKey,
+    queryKey: [queryDashboardKey],
   });
 };

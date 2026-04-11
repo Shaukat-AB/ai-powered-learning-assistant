@@ -5,6 +5,8 @@ import {
   uploadDocument,
 } from '@/services/document/document';
 
+import { queryDashboardKey } from './dashboard';
+
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/react-query';
 
@@ -39,9 +41,12 @@ export const useUploadDocumentMutation = () => {
     },
 
     mutationKey: [uploadDoumentKey],
-    onSuccess: (_data) =>
-      queryClient.invalidateQueries({
-        queryKey: [queryDoumentsKey],
+
+    onSuccess: async (_data) =>
+      await queryClient.invalidateQueries({
+        predicate: ({ queryKey }) =>
+          queryKey[0] === queryDoumentsKey || queryKey[0] === queryDashboardKey,
+        refetchType: 'all',
       }),
   });
 };
@@ -58,9 +63,12 @@ export const useDeleteDocumentMutation = () => {
     },
 
     mutationKey: [deleteDocumentKey],
-    onSuccess: (_data) =>
-      queryClient.invalidateQueries({
-        queryKey: [queryDoumentsKey],
+
+    onSuccess: async (_data) =>
+      await queryClient.invalidateQueries({
+        predicate: ({ queryKey }) =>
+          queryKey[0] === queryDoumentsKey || queryKey[0] === queryDashboardKey,
+        refetchType: 'all',
       }),
   });
 };
