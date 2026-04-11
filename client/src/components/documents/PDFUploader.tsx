@@ -149,9 +149,7 @@ const PDFUploader = () => {
               <p className="w-full text-center text-sm text-muted-foreground min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 transition-colors outline-none">
                 <Upload className="h-24 w-24 p-4 mx-auto pointer-events-none" />
 
-                {isPending ? (
-                  <Spinner className="w-full" />
-                ) : pdf?.name ? (
+                {pdf?.name ? (
                   <span>{pdf.name}</span>
                 ) : (
                   <span> Click here to choose a document (Max: 1MB)</span>
@@ -182,6 +180,7 @@ const PDFUploader = () => {
               disabled={isPending}
             >
               Upload Document
+              {isPending && <Spinner />}
             </Button>
           </AlertDialogFooter>
         </form>
