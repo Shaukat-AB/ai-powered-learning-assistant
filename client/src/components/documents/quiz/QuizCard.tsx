@@ -12,6 +12,7 @@ import {
 import { Button, buttonVariants } from '@/components/ui/button';
 import AlertDelete from '@/components/ui-blocks/AlertDelete';
 
+import { strPadZeros } from '@/lib/utils';
 import { Link } from 'react-router';
 import { useDeleteQuizMutation } from '@/hooks/quiz';
 
@@ -48,9 +49,7 @@ const QuizCard = ({ quiz }: { quiz: TQuiz }) => {
 
           <CardDescription>
             <p>
-              <small>
-                Questions: {quiz.questions.length.toString().padStart(2, '0')}
-              </small>
+              <small>Questions: {strPadZeros(quiz.questions.length)}</small>
             </p>
           </CardDescription>
 
