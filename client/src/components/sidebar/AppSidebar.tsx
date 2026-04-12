@@ -1,14 +1,11 @@
-import { PanelLeftIcon } from 'lucide-react';
-
-import Navbar from './Navbar';
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarTrigger,
 } from '../ui/sidebar';
 
+import Navbar from './Navbar';
 import SignoutButton from '../auth/SignoutButton';
 
 import { useAuth } from '@/context/AuthContext';
@@ -28,10 +25,6 @@ const AppSidebar = () => {
       </SidebarContent>
 
       <SidebarFooter className="py-(--header-p)">
-        <SidebarTrigger className="md:hidden ml-auto">
-          <PanelLeftIcon />
-        </SidebarTrigger>
-
         <Activity mode={!user ? 'hidden' : 'visible'}>
           <SignoutButton />
         </Activity>
