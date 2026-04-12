@@ -11,6 +11,7 @@
   "scripts": {
     "client": "npm run dev --prefix client",
     "server": "npm run dev --prefix server",
+    "install": "npm install --prefix client && npm install --prefix server",
     "build": "npm run build --prefix server && npm run build --prefix client"
   }
 }
