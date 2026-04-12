@@ -10,12 +10,15 @@ import {
 } from '@/components/ui/empty';
 import { Button } from '@/components/ui/button';
 import ButtonWithArrow from '@/components/ui-blocks/ButtonWithArrow';
+import HTMLSEO from '@/components/other/HTMLSEO';
 
 import { Link } from 'react-router';
 
 export const ErrorPage = ({ error, resetErrorBoundary }: FallbackProps) => {
   return (
     <Empty>
+      <HTMLSEO title="Error" />
+
       <EmptyHeader>
         <EmptyTitle className="text-6xl">Error</EmptyTitle>
         <EmptyDescription className="text-lg">

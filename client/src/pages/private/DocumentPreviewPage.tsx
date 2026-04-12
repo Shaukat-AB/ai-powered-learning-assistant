@@ -1,4 +1,5 @@
 import type { DocumentContext } from '@/components/documents/types';
+import HTMLSEO from '@/components/other/HTMLSEO';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,6 +10,8 @@ const DocumentPreviewPage = () => {
 
   return (
     <CardContent className="w-full min-h-screen">
+      <HTMLSEO title="Document Preview" />
+
       <Card className="w-full h-full">
         <CardHeader className="flex justify-between">
           <CardTitle>{doc?.name}</CardTitle>

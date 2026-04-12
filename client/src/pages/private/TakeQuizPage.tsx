@@ -1,6 +1,9 @@
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
+import { RadioGroup } from '@/components/ui/radio-group';
+import { Progress } from '@/components/ui/progress';
 import {
   Card,
   CardContent,
@@ -8,10 +11,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { RadioGroup } from '@/components/ui/radio-group';
-import { Progress } from '@/components/ui/progress';
+
 import LabelRadioItem from '@/components/ui-blocks/LabelRadioItem';
-import { Spinner } from '@/components/ui/spinner';
+import HTMLSEO from '@/components/other/HTMLSEO';
 
 import { useQuizzesContext } from '@/context/QuizzesContext';
 import { Activity, useEffect, useRef, useState } from 'react';
@@ -100,6 +102,8 @@ const TakeQuizPage = () => {
 
   return (
     <CardContent className="w-full h-full">
+      <HTMLSEO title="Take Quiz" />
+
       <CardHeader className="relative space-y-4 h-(--tab-header-h)">
         <CardTitle>
           <h1>{quiz?.title}</h1>

@@ -1,8 +1,10 @@
 import { Library, FileText } from 'lucide-react';
 
 import { CardContent, CardTitle } from '@/components/ui/card';
+
 import TotalCard from '@/components/dashboard/TotalCard';
 import TotalSkeleton from '@/components/dashboard/TotalSkeleton';
+import HTMLSEO from '@/components/other/HTMLSEO';
 
 import { useGetDashboardData } from '@/hooks/dashboard';
 
@@ -11,6 +13,8 @@ const DashboardPage = () => {
 
   return (
     <CardContent className="w-full space-y-6">
+      <HTMLSEO title="Dashboard" />
+
       <CardTitle className="text-2xl text-center mb-12">Dashboard</CardTitle>
 
       <section className="w-full flex flex-wrap items-center justify-center gap-6">

@@ -7,6 +7,7 @@ import PDFUploader from '@/components/documents/PDFUploader';
 import DocumentCard from '@/components/documents/DocumentCard';
 import DocumentsSkeleton from '@/components/documents/DocumentsSkeleton';
 import DocumentsEmpty from '@/components/documents/DocumentsEmpty';
+import HTMLSEO from '@/components/other/HTMLSEO';
 
 import { useGetDocuments } from '@/hooks/document';
 import { Outlet, useParams } from 'react-router';
@@ -17,6 +18,8 @@ const DocumentsPage = () => {
 
   return !id ? (
     <CardContent className="w-full">
+      <HTMLSEO title="Documents" />
+
       <CardHeader className="flex items-center justify-between mb-(--main-py)">
         <div>
           <EmptyTitle className="text-2xl">

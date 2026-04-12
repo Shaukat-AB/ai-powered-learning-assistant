@@ -5,6 +5,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import ChatEmpty from '@/components/documents/chat/ChatEmpty';
 import ChatTextArea from '@/components/documents/chat/ChatTextArea';
 import { ChatPrompt, ChatResponse } from '@/components/documents/chat/chat-box';
+import HTMLSEO from '@/components/other/HTMLSEO';
 
 import useScrollToEnd from '@/hooks/useScrollToEnd';
 import { useChatMutation } from '@/hooks/ai';
@@ -34,6 +35,8 @@ const ChatPage = () => {
 
   return (
     <CardContent className="relative w-full h-(--tab-page-h) max-h-(--tab-page-h) pb-16">
+      <HTMLSEO title="AI Chat" />
+
       <Card
         ref={cardRef}
         className="w-full h-full py-0 flex items-center justify-end-safe overflow-y-auto"

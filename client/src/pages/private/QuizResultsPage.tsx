@@ -19,11 +19,12 @@ import { Button } from '@/components/ui/button';
 
 import CircularProgressWithLabel from '@/components/ui-blocks/CircularProgressWithLabel';
 import LabelRadioItem from '@/components/ui-blocks/LabelRadioItem';
+import { RadioGroup } from '@/components/ui/radio-group';
+import HTMLSEO from '@/components/other/HTMLSEO';
 
 import { useQuizzesContext } from '@/context/QuizzesContext';
 import { scoreLabel, toMinsSeconds, toStorkeCssClass } from '@/lib/utils';
 import { Link, Navigate, useParams } from 'react-router';
-import { RadioGroup } from '@/components/ui/radio-group';
 
 const QuizResultsPage = () => {
   const { getQuizById, goBackPath } = useQuizzesContext();
@@ -36,6 +37,8 @@ const QuizResultsPage = () => {
 
   return (
     <CardContent className="w-full h-full space-y-16">
+      <HTMLSEO title="Quiz Result" />
+
       <section className="w-full space-y-6">
         <CardHeader className="space-y-4 h-(--tab-header-h)">
           <Button className="mr-auto" variant={'ghost'} asChild>

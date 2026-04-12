@@ -1,5 +1,3 @@
-import { Link } from 'react-router';
-
 import {
   Empty,
   EmptyContent,
@@ -9,10 +7,15 @@ import {
 } from '@/components/ui/empty';
 
 import ButtonWithArrow from '@/components/ui-blocks/ButtonWithArrow';
+import HTMLSEO from '@/components/other/HTMLSEO';
+
+import { Link } from 'react-router';
 
 const NotFoundPage = () => {
   return (
     <Empty>
+      <HTMLSEO title="Not Found - 404" />
+
       <EmptyHeader>
         <EmptyTitle className="text-6xl">404</EmptyTitle>
         <EmptyDescription className="text-lg">

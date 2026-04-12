@@ -11,6 +11,7 @@ import DocumentsSkeleton from '@/components/documents/DocumentsSkeleton';
 import GenerateQuiz from '@/components/documents/quiz/GenerateQuiz';
 import QuizzesEmpty from '@/components/documents/quiz/QuizzesEmpty';
 import QuizCard from '@/components/documents/quiz/QuizCard';
+import HTMLSEO from '@/components/other/HTMLSEO';
 
 import { useGetQuizzes } from '@/hooks/quiz';
 import { useOutletContext } from 'react-router';
@@ -21,6 +22,8 @@ const QuizzesPage = () => {
 
   return (
     <CardContent className="w-full h-full">
+      <HTMLSEO title="Quizzes" />
+
       <CardHeader className="flex items-center justify-between mb-(--main-py)">
         <div>
           <CardTitle>

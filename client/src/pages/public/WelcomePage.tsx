@@ -1,5 +1,7 @@
-import ButtonWithArrow from '@/components/ui-blocks/ButtonWithArrow';
 import { CardContent, CardTitle } from '@/components/ui/card';
+
+import HTMLSEO from '@/components/other/HTMLSEO';
+import ButtonWithArrow from '@/components/ui-blocks/ButtonWithArrow';
 
 import { useSignInMutation } from '@/hooks/auth';
 
@@ -9,6 +11,8 @@ const WelcomePage = () => {
 
   return (
     <CardContent className="w-full h-full max-w-2xs flex items-center flex-col justify-center gap-5">
+      <HTMLSEO title="Welcome" />
+
       <CardTitle className="text-2xl">Welcome</CardTitle>
       <ButtonWithArrow
         className="w-full"
