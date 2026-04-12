@@ -45,3 +45,6 @@ if (process.env.NODE_ENV == 'development') {
     console.log('server is running at port: ' + PORT);
   });
 }
+
+// Export the Express app
+export default app;
