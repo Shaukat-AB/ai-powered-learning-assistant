@@ -1,10 +1,11 @@
+import { toast } from 'sonner';
+
 import { useAuth } from '@/context/AuthContext';
 import { signinGoggle, signout } from '@/services/auth/auth';
 import { useMutation } from '@tanstack/react-query';
-import { toast } from 'sonner';
 
-const signInMutationKey = ['signin'];
-const signOutMutationKey = ['signout'];
+const signInMutationKey = 'signin';
+const signOutMutationKey = 'signout';
 
 export const useSignInMutation = () => {
   const authUser = useAuth();
@@ -16,10 +17,11 @@ export const useSignInMutation = () => {
 
       try {
         setIsLoading(true);
+
         user = await signinGoggle();
         if (user) toast.success('User signed in successfully!');
       } catch (error) {
-        toast.error('Failed signing in!');
+        toast.error('Failed to sign in!');
         console.error('Sign in error:', error);
       } finally {
         setAuthUser({
@@ -27,10 +29,11 @@ export const useSignInMutation = () => {
           user: user,
           isLoading: false,
         });
+
         return user;
       }
     },
-    mutationKey: signInMutationKey,
+    mutationKey: [signInMutationKey],
   });
 };
 
@@ -39,12 +42,13 @@ export const useSignOutMutation = () => {
     mutationFn: async () => {
       try {
         await signout();
+
         toast.success('User signed out successfully!');
       } catch (error) {
-        toast.error('Failed signing out!');
+        toast.error('Failed to sign out!');
         console.error('Sign out error:', error);
       }
     },
-    mutationKey: signOutMutationKey,
+    mutationKey: [signOutMutationKey],
   });
 };
