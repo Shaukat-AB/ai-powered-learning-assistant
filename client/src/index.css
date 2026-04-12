@@ -151,3 +151,15 @@ Avoid tailwind @apply for functional classes like group to fix it. */
 .document-card {
   @apply document-card-w hover:bg-secondary/50 hover:ring-primary/25 hover:-translate-y-0.5 duration-200 transition-all ease-out hover:shadow-sm will-change-transform;
 }
+
+.h1 {
+  @apply scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance;
+}
+
+.h2 {
+  @apply scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0;
+}
+
+.h3 {
+  @apply scroll-m-20 text-2xl font-semibold tracking-tight;
+}
