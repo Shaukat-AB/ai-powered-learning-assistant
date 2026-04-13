@@ -10,7 +10,7 @@
   ],
 
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/server/src/index.ts" },
+    { "source": "/api/:match*", "destination": "/server/src/index.ts" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
