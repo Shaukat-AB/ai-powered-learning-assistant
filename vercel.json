@@ -11,6 +11,6 @@
 
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/server/src/index.ts" },
-    { "source": "/(.*)", "destination": "client/dist/index.html" }
+    { "source": "/(.*)", "destination": "client/index.html" }
   ]
 }
