@@ -10,7 +10,8 @@
   ],
 
   "rewrites": [
-    { "source": "/api/api/:path*", "destination": "/server/src/index.ts" },
+    { "source": "/api/api/:path*", "destination": "/api/:path*" },
+    { "source": "/api/:path*", "destination": "/server/src/index.ts" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
