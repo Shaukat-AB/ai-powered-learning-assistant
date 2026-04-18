@@ -34,7 +34,7 @@ const ChatPage = () => {
   };
 
   return (
-    <CardContent className="relative w-full h-(--tab-page-h) max-h-(--tab-page-h) pb-16">
+    <CardContent className="relative px-8 w-full h-(--tab-page-h) max-h-(--tab-page-h) pb-16">
       <HTMLSEO title="AI Chat" />
 
       <Card
