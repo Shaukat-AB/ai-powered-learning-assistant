@@ -107,7 +107,7 @@ const GenerateQuiz = () => {
               aria-description="number of questions to generate"
               name="total-questions"
               value={total}
-              onChange={(e) => setTotal(parseInt(e.target.value))}
+              onChange={(e) => setTotal(parseInt(e.target.value || '0'))}
               type="number"
               aria-invalid={invalidTotal}
             />
