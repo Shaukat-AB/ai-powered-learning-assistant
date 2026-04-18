@@ -3,10 +3,15 @@ import { toast } from 'sonner';
 import { getDashboradData } from '@/services/dashboard/dashboard';
 import { useQuery } from '@tanstack/react-query';
 
-export const queryDashboardKey = 'dashboard';
+export const dashboardKeys = {
+  all: ['dashboard'] as const,
+  data: () => [...dashboardKeys.all, 'dashboard-data'],
+};
 
 export const useGetDashboardData = () => {
   return useQuery({
+    queryKey: dashboardKeys.data(),
+
     queryFn: async () => {
       try {
         const data = await getDashboradData();
@@ -22,6 +27,5 @@ export const useGetDashboardData = () => {
       }
       return null;
     },
-    queryKey: [queryDashboardKey],
   });
 };

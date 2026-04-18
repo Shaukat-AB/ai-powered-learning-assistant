@@ -5,17 +5,22 @@ import {
   uploadDocument,
 } from '@/services/document/document';
 
-import { queryDashboardKey } from './dashboard';
+import { dashboardKeys } from './dashboard';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/react-query';
 
-export const queryDoumentsKey = 'documents';
-const uploadDoumentKey = 'upload-document';
-const deleteDocumentKey = 'delete-document';
+export const documentKeys = {
+  all: [...dashboardKeys.all, 'documents'] as const,
+  documents: () => [...documentKeys.all, 'get-documents'] as const,
+  upload: () => [...documentKeys.all, 'upload-document'] as const,
+  delete: () => [...documentKeys.all, 'delete-document'] as const,
+};
 
 export const useGetDocuments = () => {
   return useQuery({
+    queryKey: documentKeys.documents(),
+
     queryFn: async () => {
       try {
         return await getDocuments();
@@ -25,12 +30,13 @@ export const useGetDocuments = () => {
       }
       return null;
     },
-    queryKey: [queryDoumentsKey],
   });
 };
 
 export const useUploadDocumentMutation = () => {
   return useMutation({
+    mutationKey: documentKeys.upload(),
+
     mutationFn: async (formData: FormData) => {
       try {
         return await uploadDocument(formData);
@@ -40,12 +46,9 @@ export const useUploadDocumentMutation = () => {
       }
     },
 
-    mutationKey: [uploadDoumentKey],
-
     onSuccess: async (_data) =>
       await queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          queryKey[0] === queryDoumentsKey || queryKey[0] === queryDashboardKey,
+        queryKey: dashboardKeys.all,
         refetchType: 'all',
       }),
   });
@@ -53,6 +56,8 @@ export const useUploadDocumentMutation = () => {
 
 export const useDeleteDocumentMutation = () => {
   return useMutation({
+    mutationKey: documentKeys.delete(),
+
     mutationFn: async (name: string) => {
       try {
         return await deleteDocument(name);
@@ -62,12 +67,9 @@ export const useDeleteDocumentMutation = () => {
       }
     },
 
-    mutationKey: [deleteDocumentKey],
-
     onSuccess: async (_data) =>
       await queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          queryKey[0] === queryDoumentsKey || queryKey[0] === queryDashboardKey,
+        queryKey: dashboardKeys.all,
         refetchType: 'all',
       }),
   });

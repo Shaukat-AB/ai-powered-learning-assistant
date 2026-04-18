@@ -8,24 +8,33 @@ import {
   updateQuizResult,
 } from '@/services/quiz/quiz';
 
-import { queryDoumentsKey } from './document';
-import { queryDashboardKey } from './dashboard';
+import { documentKeys } from './document';
+import { dashboardKeys } from './dashboard';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/react-query';
 import { useQuizzesContext } from '@/context/QuizzesContext';
 import { useLocation } from 'react-router';
 
-const queryQuizzesKey = 'quizzes';
-const genQuizKey = 'generate-quiz';
-const deleteQuizKey = 'delete-quiz';
-const updateQuizResultKey = 'update-quiz';
+export const quizKeys = {
+  all: [...documentKeys.all, 'quizzes'] as const,
+  quizzes: (name: string | undefined) =>
+    name
+      ? [...quizKeys.all, 'get-quizzes', name]
+      : [...quizKeys.all, 'get-quizzes'],
+
+  generate: () => [...quizKeys.all, 'generate-quiz'],
+  delete: () => [...quizKeys.all, 'delete-quiz'],
+  result: () => [...quizKeys.all, 'update-quiz-result'],
+};
 
 export const useGetQuizzes = (name: string | undefined) => {
   const { setQuizzes, setGoBackPath } = useQuizzesContext();
   const { pathname } = useLocation();
 
   return useQuery({
+    queryKey: quizKeys.quizzes(name),
+
     queryFn: async () => {
       try {
         if (!name) return null;
@@ -41,12 +50,13 @@ export const useGetQuizzes = (name: string | undefined) => {
       }
       return null;
     },
-    queryKey: [queryQuizzesKey, name],
   });
 };
 
 export const useGenerateQuizMutation = () => {
   return useMutation({
+    mutationKey: quizKeys.generate(),
+
     mutationFn: async ({ name, total }: { name: string; total: number }) => {
       try {
         return await generateQuiz(name, total);
@@ -56,13 +66,9 @@ export const useGenerateQuizMutation = () => {
       }
     },
 
-    mutationKey: [genQuizKey],
     onSuccess: async (_data) =>
       await queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          queryKey[0] === queryQuizzesKey ||
-          queryKey[0] === queryDoumentsKey ||
-          queryKey[0] === queryDashboardKey,
+        queryKey: dashboardKeys.all,
         refetchType: 'all',
       }),
   });
@@ -70,6 +76,8 @@ export const useGenerateQuizMutation = () => {
 
 export const useDeleteQuizMutation = () => {
   return useMutation({
+    mutationKey: quizKeys.delete(),
+
     mutationFn: async (id: string) => {
       try {
         return await deleteQuiz(id);
@@ -79,13 +87,9 @@ export const useDeleteQuizMutation = () => {
       }
     },
 
-    mutationKey: [deleteQuizKey],
     onSuccess: async (_data) =>
       await queryClient.invalidateQueries({
-        predicate: ({ queryKey }) =>
-          queryKey[0] === queryQuizzesKey ||
-          queryKey[0] === queryDoumentsKey ||
-          queryKey[0] === queryDashboardKey,
+        queryKey: dashboardKeys.all,
         refetchType: 'all',
       }),
   });
@@ -93,6 +97,8 @@ export const useDeleteQuizMutation = () => {
 
 export const useUpdateQuizResultMutation = () => {
   return useMutation({
+    mutationKey: quizKeys.result(),
+
     mutationFn: async ({
       quizId,
       result,
@@ -116,11 +122,9 @@ export const useUpdateQuizResultMutation = () => {
       }
     },
 
-    mutationKey: [updateQuizResultKey],
-
     onSuccess: (_data) =>
       queryClient.invalidateQueries({
-        queryKey: [queryQuizzesKey],
+        queryKey: quizKeys.all,
         refetchType: 'all',
       }),
   });
