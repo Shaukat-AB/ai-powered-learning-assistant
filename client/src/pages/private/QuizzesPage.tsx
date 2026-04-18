@@ -37,7 +37,7 @@ const QuizzesPage = () => {
         <GenerateQuiz />
       </CardHeader>
 
-      {isLoading ? (
+      {isLoading || !doc?.name ? (
         <CardContent className="w-full flex flex-wrap items-center gap-6">
           <DocumentsSkeleton />
         </CardContent>
