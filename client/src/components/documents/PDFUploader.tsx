@@ -1,5 +1,6 @@
 import { PlusIcon, Upload, XIcon } from 'lucide-react';
 
+import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { CardDescription } from '../ui/card';
@@ -16,7 +17,6 @@ import {
 } from '../ui/alert-dialog';
 
 import { documentNameValidater } from '@/lib/utils';
-import { toast } from 'sonner';
 import { useUploadDocumentMutation } from '@/hooks/document';
 import { useEffect, useState } from 'react';
 
@@ -26,7 +26,7 @@ const maxSizeBytes = 1024 * 1024; // 1MB
 const PDFUploader = () => {
   const [pdf, setPdf] = useState<File>();
   const [name, setName] = useState('');
-  const { mutateAsync, isPending, error } = useUploadDocumentMutation();
+  const { mutateAsync, isPending } = useUploadDocumentMutation();
 
   const [open, setOpen] = useState(false);
 
@@ -72,15 +72,7 @@ const PDFUploader = () => {
 
     const uploaded = await mutateAsync(fd);
 
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-
-    if (uploaded && 'url' in uploaded) {
-      setOpen(false);
-      toast.success('Document uploaded successfully');
-    }
+    if (uploaded) setOpen(false);
   };
 
   useEffect(() => {

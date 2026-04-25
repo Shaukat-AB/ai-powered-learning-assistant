@@ -50,10 +50,12 @@ export const useUploadDocumentMutation = () => {
       try {
         const data = await uploadDocument(formData);
 
-        if (data?.message && !data?.success) {
-          toast.error(data.message);
+        if ((data?.message && !data?.success) || !data?.url) {
+          toast.error(data?.message || 'Failed to upload document');
           return null;
         }
+
+        toast.success('Document uploaded successfully');
 
         return data;
       } catch (error) {
