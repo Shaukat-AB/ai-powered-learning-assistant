@@ -21,7 +21,7 @@ import { useUploadDocumentMutation } from '@/hooks/document';
 import { useEffect, useState } from 'react';
 
 const filedName = 'document';
-const maxSize = 1 * 1024 * 1024; // 1MB
+const maxSizeBytes = 1024 * 1024; // 1MB
 
 const PDFUploader = () => {
   const [pdf, setPdf] = useState<File>();
@@ -42,7 +42,7 @@ const PDFUploader = () => {
       return;
     }
 
-    if (file.size > maxSize) {
+    if (file.size > maxSizeBytes) {
       toast.error('File size must be less than 1MB');
       return;
     }
