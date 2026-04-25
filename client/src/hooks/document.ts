@@ -1,3 +1,5 @@
+import type { TDocument } from '@/components/documents/types';
+
 import { toast } from 'sonner';
 import {
   deleteDocument,
@@ -9,7 +11,6 @@ import { dashboardKeys } from './dashboard';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/react-query';
-import type { TDocument } from '@/components/documents/types';
 
 export const documentKeys = {
   all: [...dashboardKeys.all, 'documents'] as const,
@@ -75,7 +76,14 @@ export const useDeleteDocumentMutation = () => {
 
     mutationFn: async (name: string) => {
       try {
-        return await deleteDocument(name);
+        const data = await deleteDocument(name);
+
+        if (data?.message && !data?.success) {
+          toast.error(data.message);
+          return null;
+        }
+
+        return data;
       } catch (error) {
         toast.error('Failed to delete document');
         console.error('Failed to delete document: ', error);
