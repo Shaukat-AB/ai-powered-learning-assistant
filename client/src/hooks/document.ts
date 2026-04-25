@@ -47,7 +47,14 @@ export const useUploadDocumentMutation = () => {
 
     mutationFn: async (formData: FormData) => {
       try {
-        return await uploadDocument(formData);
+        const data = await uploadDocument(formData);
+
+        if (data?.message && !data?.success) {
+          toast.error(data.message);
+          return null;
+        }
+
+        return data;
       } catch (error) {
         toast.error('Failed to upload document');
         console.error('Failed to upload document: ', error);

@@ -77,10 +77,6 @@ const PDFUploader = () => {
       return;
     }
 
-    if (uploaded && !uploaded.success) {
-      toast.error(uploaded.message);
-    }
-
     if (uploaded && 'url' in uploaded) {
       setOpen(false);
       toast.success('Document uploaded successfully');
