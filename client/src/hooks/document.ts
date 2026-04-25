@@ -9,6 +9,7 @@ import { dashboardKeys } from './dashboard';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/react-query';
+import type { TDocument } from '@/components/documents/types';
 
 export const documentKeys = {
   all: [...dashboardKeys.all, 'documents'] as const,
@@ -21,9 +22,16 @@ export const useGetDocuments = () => {
   return useQuery({
     queryKey: documentKeys.documents(),
 
-    queryFn: async () => {
+    queryFn: async (): Promise<Array<TDocument> | null> => {
       try {
-        return await getDocuments();
+        const data = await getDocuments();
+
+        if (data?.message && !data?.success) {
+          toast.error(data.message);
+          return null;
+        }
+
+        return data;
       } catch (error) {
         toast.error('Failed to fetch documents');
         console.error('Failed to fetch documents: ', error);
