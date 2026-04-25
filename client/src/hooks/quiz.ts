@@ -59,7 +59,21 @@ export const useGenerateQuizMutation = () => {
 
     mutationFn: async ({ name, total }: { name: string; total: number }) => {
       try {
-        return await generateQuiz(name, total);
+        const data = await generateQuiz(name, total);
+
+        if (
+          (data?.message && !data?.success) ||
+          !Array.isArray(data?.questions)
+        ) {
+          toast.error(data?.message || 'Failed to generate quiz');
+          return null;
+        }
+
+        toast.success(
+          `Generated ${data?.questions?.length || 0} questions successfully`
+        );
+
+        return data;
       } catch (error) {
         toast.error('Failed to generate quiz');
         console.error('Failed to generate quiz: ', error);

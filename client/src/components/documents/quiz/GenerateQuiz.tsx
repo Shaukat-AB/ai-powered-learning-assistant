@@ -31,7 +31,7 @@ const GenerateQuiz = () => {
   const [total, setTotal] = useState(5);
   const [open, setOpen] = useState(false);
 
-  const { mutateAsync, isPending, error } = useGenerateQuizMutation();
+  const { mutateAsync, isPending } = useGenerateQuizMutation();
 
   const invalidTotal = total < 3 || total > 100;
 
@@ -43,25 +43,10 @@ const GenerateQuiz = () => {
       return;
     }
 
-    const generated = await mutateAsync({
+    await mutateAsync({
       total: total,
       name: doc?.name ?? '',
     });
-
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-
-    if ('message' in generated && !generated?.success) {
-      toast.error(generated.message);
-    }
-
-    if (typeof generated === 'object' && Array.isArray(generated?.questions)) {
-      toast.success(
-        `Generated ${generated.questions?.length || 0} questions successfully`
-      );
-    }
 
     setOpen(false);
   };
