@@ -12,10 +12,12 @@ export default defineConfig({
     tailwindcss(),
   ],
 
-  //Resolve shadcn error: Failed to resolve import "@/lib/utils"
   resolve: {
     alias: {
+      //Resolve shadcn error: Failed to resolve import "@/lib/utils"
       '@': path.resolve(__dirname, './src'),
+
+      '@shared': path.resolve(__dirname, '../shared'),
     },
   },
 });

@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+export { documentNameValidater } from '@shared/utils/document';
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -12,20 +14,6 @@ export const strPadZeros = (number: number, max = 2) =>
 export function logError(error: unknown, info: React.ErrorInfo) {
   console.error('Error: ', error, '\ncomponentStack: ', info.componentStack);
 }
-
-export const documentNameValidater = {
-  isValid: (name: string) => {
-    return name && /^(?!-)(?!.*--)[a-z0-9-]{1,26}(?<!-)$/.test(name); // lowercase separated by - and length at most 26
-  },
-
-  validate: (name: unknown) =>
-    typeof name === 'string'
-      ? name
-          .toLowerCase()
-          .replace(/\W+|_+/g, '-') // replace all non word characters including _ with -
-          .replace(/^-+|-+$/g, '') // replace - at the start or end
-      : '',
-};
 
 // Quiz Results Page
 export const toMinsSeconds = (seconds: number) => {

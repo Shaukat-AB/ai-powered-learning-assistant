@@ -27,7 +27,8 @@
     //Validating import alias for shadcn
     "baseUrl": "./src", //set "./src/" equal to "./" for paths
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@shared/*": ["./../../shared/*"]
     }
   },
   "include": ["src"]

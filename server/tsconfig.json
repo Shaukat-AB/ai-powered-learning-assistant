@@ -1,4 +1,6 @@
 {
+  "references": [{ "path": "../shared/tsconfig.json" }],
+
   "compilerOptions": {
     "target": "ESNext",
     "module": "NodeNext",
@@ -14,6 +16,7 @@
     "noImplicitReturns": true, // Forces better logic flow
     "noFallthroughCasesInSwitch": true
   },
+
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
