@@ -14,11 +14,7 @@
     "sourceMap": true, // Helpful for debugging
     "resolveJsonModule": true, // Let's you import .json files
     "noImplicitReturns": true, // Forces better logic flow
-    "noFallthroughCasesInSwitch": true,
-
-    "paths": {
-      "@shared/*": ["../shared/*"]
-    }
+    "noFallthroughCasesInSwitch": true
   },
 
   "include": ["src/**/*"],
